@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --fg-default: #414141;
+  --fg-soft: #5B5B5B;
+  --bg-default: #ffffff;
+  --fg-default-rgb: 65, 65, 65;
+  --fg-soft-rgb: 91, 91, 91;
+  --bg-default-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fg-default: #FFFFFF;
+    --fg-soft: #D6D6D6;
+    --bg-default: #282828;
+    --fg-default-rgb: 255, 255, 255;
+    --fg-soft-rgb: 214, 214, 214;
+    --bg-default-rgb: 40, 40, 40;
+  }
+}
+
+@layer base {
+  * {
+    border-color: theme('colors.border');
+  }
+  body {
+    background-color: var(--bg-default);
+    color: var(--fg-default);
+  }
+}
+
+.sf-todo-text-span::-webkit-scrollbar {
+  display: none;
+}
+
+ 

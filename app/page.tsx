@@ -86,6 +86,35 @@ const LoadingScreen = ({ isVisible }: { isVisible: boolean }) => {
   );
 };
 
+// Structured Data for SEO
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  name: "Sjöfn - Daily Productivity Todo App",
+  description:
+    "A beautiful, minimalist todo app with daily workflow system. Automatically resets completed tasks at midnight while preserving ongoing work.",
+  url: "https://morphine-cake.github.io/sjofn-todo-app",
+  applicationCategory: "ProductivityApplication",
+  operatingSystem: "Any",
+  browserRequirements: "Modern web browser with JavaScript enabled",
+  offers: {
+    "@type": "Offer",
+    price: "0",
+    priceCurrency: "USD",
+  },
+  author: {
+    "@type": "Organization",
+    name: "Sjöfn Team",
+  },
+  datePublished: new Date().toISOString(),
+  inLanguage: "en-US",
+  isAccessibleForFree: true,
+  keywords:
+    "todo app, productivity, task management, daily workflow, minimalist",
+  screenshot:
+    "https://morphine-cake.github.io/sjofn-todo-app/screenshot-wide.png",
+};
+
 export default function Home() {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [autoFocusId, setAutoFocusId] = useState<string | null>(null);
@@ -292,6 +321,14 @@ export default function Home() {
 
   return (
     <>
+      {/* Structured Data for SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(structuredData),
+        }}
+      />
+
       <LoadingScreen isVisible={showLoading} />
       <div className="sf-app min-h-screen bg-bg-default">
         <TopBar userInitial="B" onAddItem={addTodo} currentDate={currentDate} />

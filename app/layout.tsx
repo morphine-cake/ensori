@@ -43,7 +43,7 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL("https://morphine-cake.github.io/ensori-todo-app"),
+  metadataBase: new URL("https://morphine-cake.github.io/ensori"),
   alternates: {
     canonical: "/",
   },
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     title: "Ensori - Daily Productivity Todo App",
     description:
       "A beautiful, minimalist todo app with daily workflow system. Automatically resets completed tasks at midnight while preserving ongoing work.",
-    url: "https://morphine-cake.github.io/ensori-todo-app",
+    url: "https://morphine-cake.github.io/ensori",
     siteName: "Ensori",
     images: [
       {

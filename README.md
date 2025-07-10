@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://morphine-cake.github.io/ensori-todo-app">🚀 Live Demo</a> •
+  <a href="https://morphine-cake.github.io/ensori">🚀 Live Demo</a> •
   <a href="#features">✨ Features</a> •
   <a href="#installation">📦 Installation</a> •
   <a href="#seo">🔍 SEO</a>
@@ -51,8 +51,8 @@
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/morphine-cake/ensori-todo-app.git
-   cd ensori-todo-app
+   git clone https://github.com/morphine-cake/ensori.git
+   cd ensori
    ```
 
 2. **Install dependencies**

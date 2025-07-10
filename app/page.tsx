@@ -71,7 +71,7 @@ const structuredData = {
   name: "Ensori - Daily Productivity Todo App",
   description:
     "A beautiful, minimalist todo app with daily workflow system. Automatically resets completed tasks at midnight while preserving ongoing work.",
-  url: "https://morphine-cake.github.io/ensori-todo-app",
+  url: "https://morphine-cake.github.io/ensori",
   applicationCategory: "ProductivityApplication",
   operatingSystem: "Any",
   browserRequirements: "Modern web browser with JavaScript enabled",
@@ -89,8 +89,7 @@ const structuredData = {
   isAccessibleForFree: true,
   keywords:
     "todo app, productivity, task management, daily workflow, minimalist",
-  screenshot:
-    "https://morphine-cake.github.io/ensori-todo-app/screenshot-wide.png",
+  screenshot: "https://morphine-cake.github.io/ensori/screenshot-wide.png",
 };
 
 export default function Home() {

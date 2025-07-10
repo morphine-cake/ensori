@@ -1,12 +1,13 @@
 {
-  "name": "sjofn-todo-app",
+  "name": "ensori-todo-app",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "framer-motion": "^12.19.2",

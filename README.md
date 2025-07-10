@@ -1,7 +1,7 @@
-# Sjöfn - Daily Productivity Todo App
+# Ensori - Daily Productivity Todo App
 
 <p align="center">
-  <img src="public/logo.svg" alt="Sjöfn Logo" width="100" height="100">
+  <img src="public/logo.svg" alt="Ensori Logo" width="100" height="100">
 </p>
 
 <p align="center">
@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://morphine-cake.github.io/sjofn-todo-app">🚀 Live Demo</a> •
+  <a href="https://morphine-cake.github.io/ensori-todo-app">🚀 Live Demo</a> •
   <a href="#features">✨ Features</a> •
   <a href="#installation">📦 Installation</a> •
   <a href="#seo">🔍 SEO</a>
@@ -51,8 +51,8 @@
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/morphine-cake/sjofn-todo-app.git
-   cd sjofn-todo-app
+   git clone https://github.com/morphine-cake/ensori-todo-app.git
+   cd ensori-todo-app
    ```
 
 2. **Install dependencies**
@@ -200,5 +200,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 <p align="center">
-  Made with ❤️ by the Sjöfn Team
+  Made with ❤️ by Burak Başcı
 </p>

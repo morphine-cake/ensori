@@ -1,6 +1,6 @@
 {
-  "name": "Sjöfn - Daily Productivity Todo App",
-  "short_name": "Sjöfn",
+  "name": "Ensori - Daily Productivity Todo App",
+  "short_name": "Ensori",
   "description": "A beautiful, minimalist todo app with daily workflow system",
   "start_url": "/",
   "display": "standalone",
@@ -35,14 +35,14 @@
       "sizes": "1280x720",
       "type": "image/png",
       "form_factor": "wide",
-      "label": "Sjöfn Desktop View"
+      "label": "Ensori Desktop View"
     },
     {
       "src": "/screenshot-mobile.png",
       "sizes": "390x844",
       "type": "image/png",
       "form_factor": "narrow",
-      "label": "Sjöfn Mobile View"
+      "label": "Ensori Mobile View"
     }
   ],
   "shortcuts": [

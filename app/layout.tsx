@@ -1,13 +1,25 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  colorScheme: "light dark",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#191919" },
+  ],
+};
+
 export const metadata: Metadata = {
   title: {
-    default: "Sjöfn - Daily Productivity Todo App",
-    template: "%s | Sjöfn",
+    default: "Ensori - Daily Productivity Todo App",
+    template: "%s | Ensori",
   },
   description:
     "A beautiful, minimalist todo app with daily workflow system. Automatically resets completed tasks at midnight while preserving ongoing work. Features three-state todos, dark/light themes, and smooth animations.",
@@ -20,33 +32,33 @@ export const metadata: Metadata = {
     "todo list",
     "task organizer",
     "productivity tool",
-    "sjofn",
+    "ensori",
     "daily planner",
   ],
-  authors: [{ name: "Sjöfn Team" }],
-  creator: "Sjöfn Team",
-  publisher: "Sjöfn",
+  authors: [{ name: "Burak Başcı" }],
+  creator: "Burak Başcı",
+  publisher: "Burak Başcı",
   formatDetection: {
     email: false,
     address: false,
     telephone: false,
   },
-  metadataBase: new URL("https://morphine-cake.github.io/sjofn-todo-app"),
+  metadataBase: new URL("https://morphine-cake.github.io/ensori-todo-app"),
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "Sjöfn - Daily Productivity Todo App",
+    title: "Ensori - Daily Productivity Todo App",
     description:
       "A beautiful, minimalist todo app with daily workflow system. Automatically resets completed tasks at midnight while preserving ongoing work.",
-    url: "https://morphine-cake.github.io/sjofn-todo-app",
-    siteName: "Sjöfn",
+    url: "https://morphine-cake.github.io/ensori-todo-app",
+    siteName: "Ensori",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Sjöfn Todo App - Daily Productivity Tool",
+        alt: "Ensori Todo App - Daily Productivity Tool",
       },
     ],
     locale: "en_US",
@@ -54,11 +66,11 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Sjöfn - Daily Productivity Todo App",
+    title: "Ensori - Daily Productivity Todo App",
     description:
       "A beautiful, minimalist todo app with daily workflow system. Perfect for daily productivity and task management.",
     images: ["/twitter-image.png"],
-    creator: "@sjofn_app",
+    creator: "@ensori_app",
   },
   robots: {
     index: true,
@@ -79,23 +91,12 @@ export const metadata: Metadata = {
   category: "productivity",
   classification: "Productivity App",
   referrer: "origin-when-cross-origin",
-  colorScheme: "light dark",
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#000000" },
-  ],
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 1,
-    userScalable: false,
-  },
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "Sjöfn",
+    title: "Ensori",
   },
-  applicationName: "Sjöfn Todo App",
+  applicationName: "Ensori Todo App",
   generator: "Next.js",
   manifest: "/manifest.json",
   icons: {

@@ -41,42 +41,20 @@ const LoadingScreen = ({ isVisible }: { isVisible: boolean }) => {
             className="flex items-center justify-center"
           >
             <svg
-              width="40"
-              height="40"
+              width="44"
+              height="44"
               viewBox="0 0 44 44"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
               className="text-sf-fg-default drop-shadow-sm"
             >
               <path
-                d="M3.5224 14.3462C4.52749 11.9197 6.00068 9.71488 7.85786 7.85771C9.71503 6.00054 11.9198 4.52735 14.3463 3.52225C16.7728 2.51716 19.3736 1.99985 22 1.99985C24.6264 1.99985 27.2272 2.51716 29.6537 3.52226C32.0802 4.52736 34.285 6.00055 36.1421 7.85772C37.9993 9.71489 39.4725 11.9197 40.4776 14.3462"
-                stroke="currentColor"
-                strokeWidth="3.33333"
-                strokeLinecap="round"
+                d="M36.5914 7.05811C36.1161 6.37547 36.4032 5.89996 37.238 6.73481C45.6283 15.1252 45.0345 28.2473 36.6442 36.6376C28.2539 45.0278 14.9152 45.1916 6.52486 36.8014C6.04491 36.3215 6.08179 35.9445 6.84815 36.4781C15.2246 42.3105 25.888 41.0387 33.3585 33.5683C40.8289 26.0979 42.4239 15.4346 36.5914 7.05811Z"
+                fill="currentColor"
               />
               <path
-                d="M2 22L22 22L42 22"
-                stroke="currentColor"
-                strokeWidth="3.33333"
-                strokeLinecap="round"
-              />
-              <path
-                d="M5.33331 28.6667H38.6666"
-                stroke="currentColor"
-                strokeWidth="3.33333"
-                strokeLinecap="round"
-              />
-              <path
-                d="M8.66669 35.3333H35.3334"
-                stroke="currentColor"
-                strokeWidth="3.33333"
-                strokeLinecap="round"
-              />
-              <path
-                d="M18.6667 42H25.3334"
-                stroke="currentColor"
-                strokeWidth="3.33333"
-                strokeLinecap="round"
+                d="M8.33541 8.32915C14.7718 1.89274 24.9823 1.59151 31.4187 8.02791C32.0653 8.6745 31.742 8.9978 31.0954 8.6745C24.8425 5.26531 16.9572 6.36736 11.6656 11.6587C6.37408 16.9503 5.05544 24.4057 8.46464 30.6588C9.11126 31.9519 8.72526 32.2125 7.81807 31.3053C1.38171 24.869 1.8991 14.7656 8.33541 8.32915Z"
+                fill="currentColor"
               />
             </svg>
           </motion.div>
@@ -90,10 +68,10 @@ const LoadingScreen = ({ isVisible }: { isVisible: boolean }) => {
 const structuredData = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  name: "Sjöfn - Daily Productivity Todo App",
+  name: "Ensori - Daily Productivity Todo App",
   description:
     "A beautiful, minimalist todo app with daily workflow system. Automatically resets completed tasks at midnight while preserving ongoing work.",
-  url: "https://morphine-cake.github.io/sjofn-todo-app",
+  url: "https://morphine-cake.github.io/ensori-todo-app",
   applicationCategory: "ProductivityApplication",
   operatingSystem: "Any",
   browserRequirements: "Modern web browser with JavaScript enabled",
@@ -103,16 +81,16 @@ const structuredData = {
     priceCurrency: "USD",
   },
   author: {
-    "@type": "Organization",
-    name: "Sjöfn Team",
+    "@type": "Person",
+    name: "Burak Başcı",
   },
-  datePublished: new Date().toISOString(),
+  datePublished: "2024-01-01T00:00:00.000Z", // Static date instead of dynamic
   inLanguage: "en-US",
   isAccessibleForFree: true,
   keywords:
     "todo app, productivity, task management, daily workflow, minimalist",
   screenshot:
-    "https://morphine-cake.github.io/sjofn-todo-app/screenshot-wide.png",
+    "https://morphine-cake.github.io/ensori-todo-app/screenshot-wide.png",
 };
 
 export default function Home() {
@@ -271,23 +249,23 @@ export default function Home() {
     setAutoFocusId(newTodo.id);
   }, []);
 
-  const updateTodoStatus = (id: string, newStatus: TodoStatus) => {
-    setTodos(
-      todos.map((todo) =>
+  const updateTodoStatus = useCallback((id: string, newStatus: TodoStatus) => {
+    setTodos((prev) =>
+      prev.map((todo) =>
         todo.id === id ? { ...todo, status: newStatus } : todo
       )
     );
-  };
+  }, []);
 
-  const updateTodoText = (id: string, newText: string) => {
-    setTodos(
-      todos.map((todo) => (todo.id === id ? { ...todo, text: newText } : todo))
+  const updateTodoText = useCallback((id: string, newText: string) => {
+    setTodos((prev) =>
+      prev.map((todo) => (todo.id === id ? { ...todo, text: newText } : todo))
     );
-  };
+  }, []);
 
-  const deleteTodo = (id: string) => {
-    setTodos(todos.filter((todo) => todo.id !== id));
-  };
+  const deleteTodo = useCallback((id: string) => {
+    setTodos((prev) => prev.filter((todo) => todo.id !== id));
+  }, []);
 
   // Keyboard shortcut for new item (⌘ + Enter)
   useEffect(() => {

@@ -5,11 +5,11 @@
 @tailwind utilities;
 
 :root {
-  --fg-default: #414141;
-  --fg-soft: #5B5B5B;
+  --fg-default: #191919;
+  --fg-soft: #414141;
   --bg-default: #ffffff;
-  --fg-default-rgb: 65, 65, 65;
-  --fg-soft-rgb: 91, 91, 91;
+  --fg-default-rgb: 25, 25, 25;
+  --fg-soft-rgb: 65, 65, 65;
   --bg-default-rgb: 255, 255, 255;
 }
 
@@ -17,10 +17,10 @@
   :root {
     --fg-default: #FFFFFF;
     --fg-soft: #D6D6D6;
-    --bg-default: #282828;
+    --bg-default: #191919;
     --fg-default-rgb: 255, 255, 255;
     --fg-soft-rgb: 214, 214, 214;
-    --bg-default-rgb: 40, 40, 40;
+    --bg-default-rgb: 25, 25, 25;
   }
 }
 

@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://morphine-cake.github.io/sjofn-todo-app/sitemap.xml
+Sitemap: https://morphine-cake.github.io/ensori-todo-app/sitemap.xml
 
 # Crawl-delay for better server performance
 Crawl-delay: 1

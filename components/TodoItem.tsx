@@ -270,7 +270,6 @@ const TodoItem = React.forwardRef<HTMLDivElement, TodoItemProps>(
         <div className="bg-sf-fg-soft h-[0.5px] ml-[calc(12px+8px)]"></div>
       </motion.div>
     );
-  }
-);
+});
 
 export default TodoItem;

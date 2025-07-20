@@ -1,5 +1,6 @@
 "use client";
 
+import Footer from "@/components/Footer";
 import TodoItem, { Todo, TodoStatus } from "@/components/TodoItem";
 import TopBar from "@/components/TopBar";
 import { AnimatePresence, motion } from "framer-motion";
@@ -17,18 +18,7 @@ const LoadingScreen = ({ isVisible }: { isVisible: boolean }) => {
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-bg-default backdrop-blur-sm"
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            width: "100vw",
-            height: "100vh",
-            backgroundColor: "var(--bg-default)",
-            zIndex: 9999,
-          }}
+          className="fixed inset-0 z-[9999] flex items-center justify-center bg-bg-default backdrop-blur-sm w-screen h-screen"
         >
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
@@ -41,19 +31,15 @@ const LoadingScreen = ({ isVisible }: { isVisible: boolean }) => {
             className="flex items-center justify-center"
           >
             <svg
-              width="44"
-              height="44"
-              viewBox="0 0 44 44"
+              width="27"
+              height="27"
+              viewBox="0 0 54 54"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
               className="text-sf-fg-default drop-shadow-sm"
             >
               <path
-                d="M36.5914 7.05811C36.1161 6.37547 36.4032 5.89996 37.238 6.73481C45.6283 15.1252 45.0345 28.2473 36.6442 36.6376C28.2539 45.0278 14.9152 45.1916 6.52486 36.8014C6.04491 36.3215 6.08179 35.9445 6.84815 36.4781C15.2246 42.3105 25.888 41.0387 33.3585 33.5683C40.8289 26.0979 42.4239 15.4346 36.5914 7.05811Z"
-                fill="currentColor"
-              />
-              <path
-                d="M8.33541 8.32915C14.7718 1.89274 24.9823 1.59151 31.4187 8.02791C32.0653 8.6745 31.742 8.9978 31.0954 8.6745C24.8425 5.26531 16.9572 6.36736 11.6656 11.6587C6.37408 16.9503 5.05544 24.4057 8.46464 30.6588C9.11126 31.9519 8.72526 32.2125 7.81807 31.3053C1.38171 24.869 1.8991 14.7656 8.33541 8.32915Z"
+                d="M28.2812 0.00671387C42.5975 0.673119 53.9999 12.4906 54 26.9716C54 41.8805 41.9138 53.9666 27.0049 53.9667C12.0959 53.9667 0.00976562 41.8805 0.00976562 26.9716C0.00986887 12.5116 11.3791 0.70742 25.666 0.00964355C11.9114 0.720031 9.04005 12.519 9.04004 26.9706C9.04004 41.8795 12.096 53.9656 27.0049 53.9657C41.9138 53.9657 43.8477 41.8795 43.8477 26.9706C43.8477 12.4981 42.0255 0.685921 28.2812 0.00671387Z"
                 fill="currentColor"
               />
             </svg>
@@ -307,13 +293,10 @@ export default function Home() {
       />
 
       <LoadingScreen isVisible={showLoading} />
-      <div className="sf-app min-h-screen bg-bg-default">
+      <div className="sf-app min-h-screen bg-bg-default flex flex-col">
         <TopBar userInitial="B" onAddItem={addTodo} currentDate={currentDate} />
 
-        <main
-          className="sf-main-content w-full mx-auto"
-          style={{ padding: "0 16px 20vh 16px" }}
-        >
+        <main className="sf-main-content w-full mx-auto flex-1 p-[0_16px_40px_16px]">
           <div className="sf-todo-list space-y-2 mx-auto w-full max-w-sjofn">
             <AnimatePresence mode="popLayout">
               {todos.map((todo) => (
@@ -329,6 +312,8 @@ export default function Home() {
             </AnimatePresence>
           </div>
         </main>
+
+        <Footer />
       </div>
     </>
   );

@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 export type TodoStatus = "todo" | "inprogress" | "done";
 
@@ -101,227 +101,176 @@ const DeleteIcon = () => (
   </svg>
 );
 
-export default function TodoItem({
-  todo,
-  onStatusChange,
-  onTextChange,
-  onDelete,
-  autoFocus = false,
-}: TodoItemProps) {
-  const [isEditing, setIsEditing] = useState(false);
-  const [localText, setLocalText] = useState(todo.text);
-  const [saveTimeout, setSaveTimeout] = useState<NodeJS.Timeout | null>(null);
-  const [isHovered, setIsHovered] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
-  useEffect(() => {
-    setLocalText(todo.text);
-  }, [todo.text]);
+const TodoItem = React.forwardRef<HTMLDivElement, TodoItemProps>(
+  function TodoItem(
+    { todo, onStatusChange, onTextChange, onDelete, autoFocus = false },
+    ref
+  ) {
+    const [isEditing, setIsEditing] = useState(false);
+    const [localText, setLocalText] = useState(todo.text);
+    const [saveTimeout, setSaveTimeout] = useState<NodeJS.Timeout | null>(null);
+    const [isHovered, setIsHovered] = useState(false);
+    const inputRef = useRef<HTMLInputElement>(null);
+    useEffect(() => {
+      setLocalText(todo.text);
+    }, [todo.text]);
 
-  useEffect(() => {
-    if (autoFocus) {
-      setIsEditing(true);
-    }
-  }, [autoFocus]);
-
-  const handleStatusClick = () => {
-    const currentIndex = statusOrder.indexOf(todo.status);
-    const nextIndex = (currentIndex + 1) % statusOrder.length;
-    const newStatus = statusOrder[nextIndex];
-    onStatusChange(todo.id, newStatus);
-  };
-
-  const handleTextClick = () => {
-    setIsEditing(true);
-  };
-
-  const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newText = e.target.value;
-    setLocalText(newText);
-
-    // Clear existing timeout
-    if (saveTimeout) {
-      clearTimeout(saveTimeout);
-    }
-
-    // Set new timeout for auto-save
-    const timeout = setTimeout(() => {
-      onTextChange(todo.id, newText);
-    }, 2000);
-
-    setSaveTimeout(timeout);
-  };
-
-  const handleBlur = () => {
-    setIsEditing(false);
-    // Save immediately on blur
-    if (saveTimeout) {
-      clearTimeout(saveTimeout);
-    }
-    onTextChange(todo.id, localText);
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      // Prevent Shift+Enter from doing anything
-      if (e.shiftKey) {
-        e.preventDefault();
-        return;
+    useEffect(() => {
+      if (autoFocus) {
+        setIsEditing(true);
       }
-      handleBlur();
-    }
-  };
+    }, [autoFocus]);
 
-  const handleDelete = () => {
-    onDelete(todo.id);
-  };
+    const handleStatusClick = () => {
+      const currentIndex = statusOrder.indexOf(todo.status);
+      const nextIndex = (currentIndex + 1) % statusOrder.length;
+      const newStatus = statusOrder[nextIndex];
+      onStatusChange(todo.id, newStatus);
+    };
 
-  useEffect(() => {
-    if (isEditing && inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, [isEditing]);
+    const handleTextClick = () => {
+      setIsEditing(true);
+    };
 
-  return (
-    <motion.div
-      className="sf-todo-item-wrapper"
-      style={{ marginTop: 0 }}
-      initial={{ opacity: 0, y: -20, scale: 0.95 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{
-        opacity: 0,
-        y: -20,
-        scale: 0.95,
-        height: 0,
-        marginTop: 0,
-        marginBottom: 0,
-      }}
-      transition={{
-        type: "spring",
-        stiffness: 500,
-        damping: 30,
-        mass: 1,
-      }}
-      layout
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <div
-        className="sf-todo-item flex items-center gap-2 relative"
-        style={{ height: "40px" }}
+    const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const newText = e.target.value;
+      setLocalText(newText);
+
+      // Clear existing timeout
+      if (saveTimeout) {
+        clearTimeout(saveTimeout);
+      }
+
+      // Set new timeout for auto-save
+      const timeout = setTimeout(() => {
+        onTextChange(todo.id, newText);
+      }, 2000);
+
+      setSaveTimeout(timeout);
+    };
+
+    const handleBlur = () => {
+      setIsEditing(false);
+      // Save immediately on blur
+      if (saveTimeout) {
+        clearTimeout(saveTimeout);
+      }
+      onTextChange(todo.id, localText);
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+      if (e.key === "Enter") {
+        // Prevent Shift+Enter from doing anything
+        if (e.shiftKey) {
+          e.preventDefault();
+          return;
+        }
+        handleBlur();
+      }
+    };
+
+    const handleDelete = () => {
+      onDelete(todo.id);
+    };
+
+    useEffect(() => {
+      if (isEditing && inputRef.current) {
+        inputRef.current.focus();
+      }
+    }, [isEditing]);
+
+    return (
+      <motion.div
+        ref={ref}
+        className="sf-todo-item-wrapper mt-0"
+        initial={{ opacity: 0, y: -20, scale: 0.95 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{
+          opacity: 0,
+          y: -20,
+          scale: 0.95,
+          height: 0,
+          marginTop: 0,
+          marginBottom: 0,
+        }}
+        transition={{
+          type: "spring",
+          stiffness: 500,
+          damping: 30,
+          mass: 1,
+        }}
+        layout
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
       >
-        {/* Status Icon */}
-        <button
-          className="sf-todo-status-icon flex items-center justify-center text-fg-default"
-          onClick={handleStatusClick}
-          type="button"
-          style={{
-            height: "100%",
-            flex: "0 0 auto",
-          }}
-        >
-          {statusIcons[todo.status]}
-        </button>
+        <div className="sf-todo-item flex items-center gap-2 relative h-[40px]">
+          {/* Status Icon */}
+          <button
+            className="sf-todo-status-icon flex items-center justify-center text-fg-default h-full flex-[0_0_auto]"
+            onClick={handleStatusClick}
+            type="button"
+          >
+            {statusIcons[todo.status]}
+          </button>
 
-        {/* Todo Text */}
-        <div
-          className="sf-todo-text flex items-center"
-          style={{
-            height: "100%",
-            width: "100%",
-            flex: "1 1 auto",
-            minWidth: 0,
-          }}
-        >
-          {isEditing ? (
-            <input
-              ref={inputRef}
-              type="text"
-              value={localText}
-              onChange={handleTextChange}
-              onBlur={handleBlur}
-              onKeyDown={handleKeyDown}
-              className="w-full bg-transparent border-none outline-none font-caveat font-normal text-lg text-sf-fg-default"
-              placeholder="Enter todo item..."
-              style={{
-                lineHeight: "40px",
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-                fontWeight: "400",
-                fontFamily: "Caveat, cursive",
-                caretColor: "var(--sf-fg-default)",
+          {/* Todo Text */}
+          <div className="sf-todo-text flex items-center h-full w-full flex-[1_1_auto] min-w-0">
+            {isEditing ? (
+              <input
+                ref={inputRef}
+                type="text"
+                value={localText}
+                onChange={handleTextChange}
+                onBlur={handleBlur}
+                onKeyDown={handleKeyDown}
+                className="w-full bg-transparent border-none outline-none font-caveat font-normal text-lg text-sf-fg-default leading-[40px] whitespace-nowrap overflow-hidden font-normal caret-sf-fg-default"
+                placeholder="Enter todo item..."
+              />
+            ) : (
+              <span
+                onClick={handleTextClick}
+                className={`font-caveat font-normal text-lg cursor-text block w-full sf-todo-text-span text-sf-fg-default leading-[40px] whitespace-nowrap overflow-x-auto scrollbar-none font-normal ${
+                  todo.status === "done" ? "line-through" : ""
+                } ${todo.text ? "opacity-100" : "opacity-[0.4]"}`}
+              >
+                {todo.text || "Enter todo item..."}
+              </span>
+            )}
+          </div>
+
+          {/* Delete Button - shows on hover */}
+          {isHovered && (
+            <button
+              className="sf-delete-button flex items-center justify-center transition-all duration-150 ease-out text-sf-fg-default hover:text-red-500 w-[20px] h-[20px] rounded-[4px] bg-sf-bg-default border-none cursor-pointer absolute right-0 top-1/2 -translate-y-1/2 z-10"
+              onClick={handleDelete}
+              type="button"
+              onMouseEnter={(e) => {
+                // Light red tint for light mode, darker red tint for dark mode
+                e.currentTarget.style.backgroundColor =
+                  "color-mix(in srgb, var(--bg-default) 85%, #ef4444 15%)";
               }}
-            />
-          ) : (
-            <span
-              onClick={handleTextClick}
-              className={`font-caveat font-normal text-lg cursor-text block w-full sf-todo-text-span text-sf-fg-default ${
-                todo.status === "done" ? "line-through" : ""
-              }`}
-              style={{
-                lineHeight: "40px",
-                whiteSpace: "nowrap",
-                overflowX: "auto",
-                scrollbarWidth: "none",
-                msOverflowStyle: "none",
-                opacity: todo.text ? 1 : 0.4,
-                fontWeight: "400",
-                fontFamily: "Caveat, cursive",
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = "var(--bg-default)";
+              }}
+              onMouseDown={(e) => {
+                e.currentTarget.style.backgroundColor =
+                  "color-mix(in srgb, var(--bg-default) 70%, #ef4444 30%)";
+              }}
+              onMouseUp={(e) => {
+                e.currentTarget.style.backgroundColor =
+                  "color-mix(in srgb, var(--bg-default) 85%, #ef4444 15%)";
               }}
             >
-              {todo.text || "Enter todo item..."}
-            </span>
+              <DeleteIcon />
+            </button>
           )}
         </div>
 
-        {/* Delete Button - shows on hover */}
-        {isHovered && (
-          <button
-            className="sf-delete-button flex items-center justify-center transition-all duration-150 ease-out text-sf-fg-default hover:text-red-500"
-            onClick={handleDelete}
-            type="button"
-            style={{
-              width: "20px",
-              height: "20px",
-              borderRadius: "4px",
-              backgroundColor: "var(--bg-default)",
-              border: "none",
-              cursor: "pointer",
-              position: "absolute",
-              right: "0px",
-              top: "50%",
-              transform: "translateY(-50%)",
-              zIndex: 10,
-            }}
-            onMouseEnter={(e) => {
-              // Light red tint for light mode, darker red tint for dark mode
-              e.currentTarget.style.backgroundColor =
-                "color-mix(in srgb, var(--bg-default) 85%, #ef4444 15%)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = "var(--bg-default)";
-            }}
-            onMouseDown={(e) => {
-              e.currentTarget.style.backgroundColor =
-                "color-mix(in srgb, var(--bg-default) 70%, #ef4444 30%)";
-            }}
-            onMouseUp={(e) => {
-              e.currentTarget.style.backgroundColor =
-                "color-mix(in srgb, var(--bg-default) 85%, #ef4444 15%)";
-            }}
-          >
-            <DeleteIcon />
-          </button>
-        )}
-      </div>
+        {/* Bottom divider with same width and alignment as sf-todo-text */}
+        <div className="bg-sf-fg-soft h-[0.5px] ml-[calc(12px+8px)]"></div>
+      </motion.div>
+    );
+  }
+);
 
-      {/* Bottom divider with same width and alignment as sf-todo-text */}
-      <div
-        className="bg-sf-fg-soft"
-        style={{
-          height: "0.5px",
-          marginLeft: "calc(12px + 8px)", // icon width + gap
-        }}
-      ></div>
-    </motion.div>
-  );
-}
+export default TodoItem;

@@ -24,9 +24,49 @@
       "purpose": "maskable any"
     },
     {
+      "src": "/android-chrome-light-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any",
+      "media": "(prefers-color-scheme: light)"
+    },
+    {
+      "src": "/android-chrome-light-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any",
+      "media": "(prefers-color-scheme: light)"
+    },
+    {
+      "src": "/android-chrome-dark-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any",
+      "media": "(prefers-color-scheme: dark)"
+    },
+    {
+      "src": "/android-chrome-dark-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any",
+      "media": "(prefers-color-scheme: dark)"
+    },
+    {
       "src": "/apple-touch-icon.png",
       "sizes": "180x180",
       "type": "image/png"
+    },
+    {
+      "src": "/apple-touch-icon-light.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "media": "(prefers-color-scheme: light)"
+    },
+    {
+      "src": "/apple-touch-icon-dark.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "media": "(prefers-color-scheme: dark)"
     }
   ],
   "screenshots": [

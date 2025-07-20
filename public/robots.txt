@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://morphine-cake.github.io/ensori/sitemap.xml
+Sitemap: https://ensori.today/sitemap.xml
 
 # Crawl-delay for better server performance
 Crawl-delay: 1

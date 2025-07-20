@@ -53,7 +53,7 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL("https://morphine-cake.github.io/ensori"),
+  metadataBase: new URL("https://ensori.today"),
   alternates: {
     canonical: "/",
   },
@@ -61,7 +61,7 @@ export const metadata: Metadata = {
     title: "Ensori - Daily Productivity Todo App",
     description:
       "A beautiful, minimalist todo app with daily workflow system. Automatically resets completed tasks at midnight while preserving ongoing work.",
-    url: "https://morphine-cake.github.io/ensori",
+    url: "https://ensori.today",
     siteName: "Ensori",
     images: [
       {
@@ -93,14 +93,22 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  verification: {
-    google: "your-google-verification-code", // Replace with actual code
-    // yandex: "your-yandex-verification-code",
-    // bing: "your-bing-verification-code",
-  },
+  // verification: {
+  //   google: "your-google-verification-code", // Add your Google Search Console verification code here
+  //   // yandex: "your-yandex-verification-code",
+  //   // bing: "your-bing-verification-code",
+  // },
   category: "productivity",
   classification: "Productivity App",
   referrer: "origin-when-cross-origin",
+  other: {
+    "mobile-web-app-capable": "yes",
+    "apple-mobile-web-app-capable": "yes",
+    "apple-mobile-web-app-status-bar-style": "default",
+    "theme-color": "#ffffff",
+    "msapplication-TileColor": "#ffffff",
+    "msapplication-config": "/browserconfig.xml",
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",

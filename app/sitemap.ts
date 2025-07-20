@@ -1,7 +1,7 @@
 import { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://morphine-cake.github.io/ensori";
+  const baseUrl = "https://ensori.today";
 
   return [
     {

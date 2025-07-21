@@ -100,7 +100,7 @@ export default function TopBar({
       className="sf-top-bar sticky top-0 z-50 p-[24px_16px_16px_16px]"
       style={{
         background:
-          "linear-gradient(90deg, rgba(var(--bg-default-rgb), 0) 0%, rgba(var(--bg-default-rgb), 1) 20px)",
+          "linear-gradient(0deg, rgba(var(--bg-default-rgb), 0) 0%, rgba(var(--bg-default-rgb), 1) 20px)",
       }}
     >
       <div className="sf-top-bar-content w-full max-w-sjofn mx-auto flex items-center justify-between">

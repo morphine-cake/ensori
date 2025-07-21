@@ -119,40 +119,34 @@ export default function TopBar({
         {/* Right: Add button */}
         <div className="sf-top-bar-right flex items-center">
           <button
-            className="sf-add-button flex items-center gap-2 transition-colors duration-150 ease-out text-fg-default px-3 py-1.5 p-[2px_4px] rounded-[4px] bg-transparent border-none cursor-pointer"
+            className="sf-add-button w-4 h-4 flex items-center justify-center outline-none focus:outline-none active:outline-none transition-colors ease-in-out duration-[168ms]"
             onClick={onAddItem}
+            style={{
+              backgroundColor: "#B12C2F",
+              borderRadius: "4px",
+              border: "none",
+            }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor =
-                "rgba(var(--fg-default-rgb), 0.1)";
+              e.currentTarget.style.backgroundColor = "#8A1F25";
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = "transparent";
-            }}
-            onMouseDown={(e) => {
-              e.currentTarget.style.backgroundColor =
-                "rgba(var(--fg-default-rgb), 0.15)";
-            }}
-            onMouseUp={(e) => {
-              e.currentTarget.style.backgroundColor =
-                "rgba(var(--fg-default-rgb), 0.1)";
+              e.currentTarget.style.backgroundColor = "#B12C2F";
             }}
           >
             <svg
-              width="12"
-              height="12"
-              viewBox="0 0 12 12"
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
-              <path d="M6 1V11" stroke="currentColor" strokeLinecap="round" />
-              <path d="M11 6L1 6" stroke="currentColor" strokeLinecap="round" />
+              <path
+                d="M8 3V13M13 8H3"
+                stroke="white"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
             </svg>
-            <span className="font-dm-mono font-light text-sf-fg-default text-sm add-item-text">
-              Add Item
-            </span>
-            <span className="font-dm-mono font-normal text-sf-fg-default text-xs opacity-60 keyboard-shortcut-text">
-              [⌘+↩]
-            </span>
           </button>
         </div>
       </div>

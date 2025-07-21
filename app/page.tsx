@@ -298,7 +298,7 @@ export default function Home() {
 
         <main className="sf-main-content w-full mx-auto flex-1 p-[0_16px_40px_16px]">
           <div className="sf-todo-list space-y-2 mx-auto w-full max-w-sjofn">
-            <AnimatePresence mode="popLayout">
+            <AnimatePresence initial={false}>
               {todos.map((todo) => (
                 <TodoItem
                   key={todo.id}

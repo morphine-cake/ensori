@@ -187,17 +187,24 @@ const TodoItem = React.forwardRef<HTMLDivElement, TodoItemProps>(
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{
           opacity: 0,
-          y: -20,
           scale: 0.95,
           height: 0,
           marginTop: 0,
           marginBottom: 0,
+          transition: {
+            duration: 0.3,
+            ease: "easeInOut",
+            height: { duration: 0.2, delay: 0.1 },
+            opacity: { duration: 0.15 },
+            scale: { duration: 0.15 },
+          },
         }}
         transition={{
           type: "spring",
           stiffness: 500,
           damping: 30,
           mass: 1,
+          layout: { duration: 0.3, ease: "easeInOut" },
         }}
         layout
         onMouseEnter={() => setIsHovered(true)}
@@ -270,6 +277,7 @@ const TodoItem = React.forwardRef<HTMLDivElement, TodoItemProps>(
         <div className="bg-sf-fg-soft h-[0.5px] ml-[calc(12px+8px)]"></div>
       </motion.div>
     );
-});
+  }
+);
 
 export default TodoItem;

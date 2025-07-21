@@ -105,7 +105,7 @@ export default function Footer() {
             </div>
 
             {/* Social media icons */}
-            <div className="sf-footer-social flex items-center gap-4">
+            <div className="sf-footer-social flex items-center gap-2">
               {socialLinks.map((link, index) => (
                 <motion.a
                   key={link.name}
@@ -115,7 +115,8 @@ export default function Footer() {
                   rel={
                     link.name === "Share" ? undefined : "noopener noreferrer"
                   }
-                  className="sf-social-link opacity-50 hover:opacity-100 transition-opacity duration-[168ms] ease-in-out text-sf-fg-default"
+                  className="sf-social-link opacity-50 hover:opacity-100 transition-opacity duration-[168ms] ease-in-out text-sf-fg-default flex items-center justify-center"
+                  style={{ width: "120px", height: "12px" }}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   initial={{ y: 10 }}
@@ -123,12 +124,12 @@ export default function Footer() {
                   transition={{ duration: 0.4, delay: 0.5 + index * 0.1 }}
                 >
                   <svg
-                    width="14"
-                    height="14"
+                    width="12"
+                    height="12"
                     viewBox={link.icon.props.viewBox}
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
-                    className="w-[14px] h-[14px]"
+                    className="w-[12px] h-[12px]"
                   >
                     {link.icon.props.children}
                   </svg>

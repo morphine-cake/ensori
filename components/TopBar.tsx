@@ -96,7 +96,13 @@ export default function TopBar({
   };
 
   return (
-    <div className="sf-top-bar sticky top-0 bg-sf-bg-default z-50 p-[24px_16px_16px_16px]">
+    <div
+      className="sf-top-bar sticky top-0 z-50 p-[24px_16px_16px_16px]"
+      style={{
+        background:
+          "linear-gradient(90deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.95) 70%, rgba(255, 255, 255, 1) 100%)",
+      }}
+    >
       <div className="sf-top-bar-content w-full max-w-sjofn mx-auto flex items-center justify-between">
         {/* Left: Logo only */}
         <div className="sf-top-bar-left flex items-center">

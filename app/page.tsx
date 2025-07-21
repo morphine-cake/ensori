@@ -307,7 +307,6 @@ export default function Home() {
                   onTextChange={updateTodoText}
                   onDelete={deleteTodo}
                   autoFocus={todo.id === autoFocusId}
-                  isFirst={index === 0}
                 />
               ))}
             </AnimatePresence>

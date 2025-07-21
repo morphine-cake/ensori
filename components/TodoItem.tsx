@@ -17,7 +17,6 @@ interface TodoItemProps {
   onTextChange: (id: string, newText: string) => void;
   onDelete: (id: string) => void;
   autoFocus?: boolean;
-  isFirst?: boolean;
 }
 
 // SVG Components for status icons
@@ -104,14 +103,7 @@ const DeleteIcon = () => (
 
 const TodoItem = React.forwardRef<HTMLDivElement, TodoItemProps>(
   function TodoItem(
-    {
-      todo,
-      onStatusChange,
-      onTextChange,
-      onDelete,
-      autoFocus = false,
-      isFirst = false,
-    },
+    { todo, onStatusChange, onTextChange, onDelete, autoFocus = false },
     ref
   ) {
     const [isEditing, setIsEditing] = useState(false);

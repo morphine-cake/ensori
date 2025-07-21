@@ -116,7 +116,7 @@ export default function Footer() {
                     link.name === "Share" ? undefined : "noopener noreferrer"
                   }
                   className="sf-social-link opacity-50 hover:opacity-100 transition-opacity duration-[168ms] ease-in-out text-sf-fg-default flex items-center justify-center"
-                  style={{ width: "120px", height: "12px" }}
+                  style={{ width: "12px", height: "12px" }}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   initial={{ y: 10 }}

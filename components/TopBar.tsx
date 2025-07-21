@@ -111,7 +111,7 @@ export default function TopBar({
 
         {/* Right: Date, divider, and add button */}
         <div className="sf-top-bar-right flex items-center gap-[12px]">
-          <span className="sf-date-label font-dm-mono font-light text-sf-fg-default text-17 mt-1px">
+          <span className="sf-date-label font-dm-mono font-medium text-sf-fg-default text-sm mt-1px">
             {formatDate(currentDate)}
           </span>
 

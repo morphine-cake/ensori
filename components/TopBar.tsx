@@ -123,7 +123,7 @@ export default function TopBar({
             onClick={onAddItem}
             style={{
               backgroundColor: "#B12C2F",
-              borderRadius: "4px",
+              borderRadius: "6px",
               border: "none",
             }}
             onMouseEnter={(e) => {

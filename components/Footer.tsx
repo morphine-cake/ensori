@@ -93,7 +93,10 @@ export default function Footer() {
           <div className="sf-footer-bottom flex flex-row items-center justify-center gap-4">
             {/* Main text */}
             <div className="sf-footer-text text-center">
-              <p className="font-dm-mono font-light text-sf-fg-default text-xs opacity-50">
+              <p
+                className="font-dm-mono font-light text-sf-fg-default opacity-50"
+                style={{ fontSize: "10px" }}
+              >
                 made by{" "}
                 <span className="font-dm-mono font-normal">burak başcı</span>{" "}
                 with <span className="font-dm-mono font-normal">figma</span> &{" "}

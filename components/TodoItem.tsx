@@ -191,21 +191,21 @@ const TodoItem = React.forwardRef<HTMLDivElement, TodoItemProps>(
       <motion.div
         ref={ref}
         className="sf-todo-item-wrapper"
-        style={{ marginTop: isFirst ? "0px" : "8px" }}
+        style={{ paddingTop: isFirst ? "0px" : "8px" }}
         initial={{ opacity: 0, y: -20, scale: 0.95 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{
           opacity: 0,
           scale: 0.95,
           height: 0,
-          marginTop: 0,
-          marginBottom: 0,
+          paddingTop: 0,
+          paddingBottom: 0,
           transition: {
             duration: 0.3,
             ease: "easeInOut",
             opacity: { duration: 0.15 },
             scale: { duration: 0.15 },
-            marginTop: { duration: 0.2, delay: 0.05 },
+            paddingTop: { duration: 0.2, delay: 0.05 },
             height: { duration: 0.15, delay: 0.15 },
           },
         }}

@@ -98,8 +98,8 @@ export default function TopBar({
   return (
     <div className="sf-top-bar sticky top-0 bg-sf-bg-default z-50 p-[24px_16px_16px_16px]">
       <div className="sf-top-bar-content w-full max-w-sjofn mx-auto flex items-center justify-between">
-        {/* Left: Logo, divider, and date */}
-        <div className="sf-top-bar-left flex items-center gap-[12px]">
+        {/* Left: Logo only */}
+        <div className="sf-top-bar-left flex items-center">
           <div className="sf-logo box-border content-stretch flex flex-row gap-1.5 items-center justify-start p-0 relative text-fg-default">
             <div className="relative shrink-0 w-[89px] h-[16px] mt-[2px]">
               <div className="absolute inset-0 flex items-center justify-center">
@@ -107,17 +107,16 @@ export default function TopBar({
               </div>
             </div>
           </div>
+        </div>
 
-          {/* Vertical divider */}
-          <div className="sf-divider bg-sf-fg-default w-[1px] h-[16px] opacity-[0.15]"></div>
-
+        {/* Right: Date, divider, and add button */}
+        <div className="sf-top-bar-right flex items-center gap-[12px]">
           <span className="sf-date-label font-dm-mono font-light text-sf-fg-default text-17 mt-1px">
             {formatDate(currentDate)}
           </span>
-        </div>
 
-        {/* Right: Add button */}
-        <div className="sf-top-bar-right flex items-center">
+          {/* Vertical divider */}
+          <div className="sf-divider bg-sf-fg-default w-[1px] h-[16px] opacity-[0.15]"></div>
           <button
             className="sf-add-button w-5 h-5 flex items-center justify-center outline-none focus:outline-none active:outline-none transition-colors ease-in-out duration-[168ms]"
             onClick={onAddItem}

@@ -191,7 +191,7 @@ const TodoItem = React.forwardRef<HTMLDivElement, TodoItemProps>(
       <motion.div
         ref={ref}
         className="sf-todo-item-wrapper"
-        style={{ paddingTop: isFirst ? "0px" : "8px" }}
+        style={{ paddingTop: "8px" }}
         initial={{ opacity: 0, y: -20, scale: 0.95 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{

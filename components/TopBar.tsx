@@ -119,7 +119,7 @@ export default function TopBar({
         {/* Right: Add button */}
         <div className="sf-top-bar-right flex items-center">
           <button
-            className="sf-add-button w-4 h-4 flex items-center justify-center outline-none focus:outline-none active:outline-none transition-colors ease-in-out duration-[168ms]"
+            className="sf-add-button w-5 h-5 flex items-center justify-center outline-none focus:outline-none active:outline-none transition-colors ease-in-out duration-[168ms]"
             onClick={onAddItem}
             style={{
               backgroundColor: "#B12C2F",

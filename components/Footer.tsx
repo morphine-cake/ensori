@@ -89,43 +89,6 @@ export default function Footer() {
     >
       <div className="sf-footer-content w-full max-w-sjofn mx-auto">
         <div className="sf-footer-main flex flex-col items-center justify-center gap-4">
-          {/* Illustration */}
-          <div className="sf-footer-illustration">
-            <svg
-              width="25"
-              height="43"
-              viewBox="0 0 25 43"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <ellipse
-                cx="12.5"
-                cy="42.4686"
-                rx="12.2351"
-                ry="0.461702"
-                fill="black"
-              />
-              <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M14.2165 15.9287C18.495 15.9287 23.9667 16.6498 23.9667 20.9492C23.9667 25.4722 18.7175 27.125 14.2165 27.125C10.4801 27.125 6.88373 24.7039 6.88373 20.9492C6.88373 17.4671 10.7514 15.9287 14.2165 15.9287Z"
-                fill="#B12C2F"
-              />
-              <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M13.7212 0C17.9237 0 20.1576 4.41809 20.1576 8.61728C20.1576 12.42 17.5269 15.9287 13.7212 15.9287C9.42272 15.9287 5.4986 12.9124 5.4986 8.61728C5.4986 3.96754 9.0678 0 13.7212 0Z"
-                fill="#B12C2F"
-              />
-              <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M14.3928 27.125C19.4804 27.125 21.5428 32.942 21.5428 38.0421C21.5428 41.3335 17.6761 42.476 14.3928 42.476C9.81474 42.476 3.53638 42.6314 3.53638 38.0421C3.53638 32.0221 8.38758 27.125 14.3928 27.125Z"
-                fill="#B12C2F"
-              />
-            </svg>
-          </div>
-
           {/* Text and Social Links Row */}
           <div className="sf-footer-bottom flex flex-row items-center justify-center gap-4">
             {/* Main text */}

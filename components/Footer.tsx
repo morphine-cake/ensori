@@ -100,7 +100,7 @@ export default function Footer() {
                 made by{" "}
                 <span className="font-dm-mono font-normal">burak başcı</span>{" "}
                 with <span className="font-dm-mono font-normal">figma</span> &{" "}
-                <span className="font-dm-mono font-normal">cursor</span>
+                <span className="font-dm-mono font-normal">cursor ai</span>
               </p>
             </div>
 

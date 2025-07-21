@@ -297,9 +297,9 @@ export default function Home() {
         <TopBar userInitial="B" onAddItem={addTodo} currentDate={currentDate} />
 
         <main className="sf-main-content w-full mx-auto flex-1 p-[0_16px_40px_16px]">
-          <div className="sf-todo-list space-y-2 mx-auto w-full max-w-sjofn">
+          <div className="sf-todo-list mx-auto w-full max-w-sjofn">
             <AnimatePresence initial={false}>
-              {todos.map((todo) => (
+              {todos.map((todo, index) => (
                 <TodoItem
                   key={todo.id}
                   todo={todo}
@@ -307,6 +307,7 @@ export default function Home() {
                   onTextChange={updateTodoText}
                   onDelete={deleteTodo}
                   autoFocus={todo.id === autoFocusId}
+                  isFirst={index === 0}
                 />
               ))}
             </AnimatePresence>

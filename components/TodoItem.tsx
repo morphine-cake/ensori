@@ -17,6 +17,7 @@ interface TodoItemProps {
   onTextChange: (id: string, newText: string) => void;
   onDelete: (id: string) => void;
   autoFocus?: boolean;
+  isFirst?: boolean;
 }
 
 // SVG Components for status icons
@@ -103,7 +104,14 @@ const DeleteIcon = () => (
 
 const TodoItem = React.forwardRef<HTMLDivElement, TodoItemProps>(
   function TodoItem(
-    { todo, onStatusChange, onTextChange, onDelete, autoFocus = false },
+    {
+      todo,
+      onStatusChange,
+      onTextChange,
+      onDelete,
+      autoFocus = false,
+      isFirst = false,
+    },
     ref
   ) {
     const [isEditing, setIsEditing] = useState(false);
@@ -182,7 +190,8 @@ const TodoItem = React.forwardRef<HTMLDivElement, TodoItemProps>(
     return (
       <motion.div
         ref={ref}
-        className="sf-todo-item-wrapper mt-0"
+        className="sf-todo-item-wrapper"
+        style={{ marginTop: isFirst ? "0px" : "8px" }}
         initial={{ opacity: 0, y: -20, scale: 0.95 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{
@@ -194,9 +203,10 @@ const TodoItem = React.forwardRef<HTMLDivElement, TodoItemProps>(
           transition: {
             duration: 0.3,
             ease: "easeInOut",
-            height: { duration: 0.2, delay: 0.1 },
             opacity: { duration: 0.15 },
             scale: { duration: 0.15 },
+            marginTop: { duration: 0.2, delay: 0.05 },
+            height: { duration: 0.15, delay: 0.15 },
           },
         }}
         transition={{

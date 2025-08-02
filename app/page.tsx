@@ -1,13 +1,20 @@
 "use client";
 
+import AuthGuard from "@/components/AuthGuard";
 import Footer from "@/components/Footer";
 import TodoItem, { Todo, TodoStatus } from "@/components/TodoItem";
 import TopBar from "@/components/TopBar";
+import { useAuth } from "@/contexts/AuthContext";
+import {
+  addTodo as firestoreAddTodo,
+  deleteTodo as firestoreDeleteTodo,
+  updateTodo as firestoreUpdateTodo,
+  getUserLastActiveDate,
+  handleDailyReset,
+  subscribeToUserTodos,
+} from "@/lib/firestore";
 import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useState } from "react";
-
-const STORAGE_KEY = "sjofn-todos";
-const LAST_DATE_KEY = "sjofn-last-date";
 
 // Loading Screen Component
 const LoadingScreen = ({ isVisible }: { isVisible: boolean }) => {
@@ -78,125 +85,98 @@ const structuredData = {
   screenshot: "https://ensori.today/thumbnail.png",
 };
 
-export default function Home() {
+function HomeContent() {
+  const { user } = useAuth();
   const [todos, setTodos] = useState<Todo[]>([]);
   const [autoFocusId, setAutoFocusId] = useState<string | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [currentDate, setCurrentDate] = useState<string>("");
   const [showLoading, setShowLoading] = useState(true);
 
-  // Function to handle daily reset - remove done items, keep todo and inprogress
-  const handleDailyReset = useCallback(() => {
+  // Function to handle daily reset - remove done items for current user
+  const handleUserDailyReset = useCallback(async () => {
+    if (!user?.uid) return;
+
     const today = new Date().toDateString();
-    const lastDate = localStorage.getItem(LAST_DATE_KEY);
 
-    if (lastDate !== today) {
-      console.log("🌅 New day detected! Clearing done items...");
-
-      // Filter out done items, keep todo and inprogress
-      setTodos((prevTodos) => {
-        const persistedTodos = prevTodos.filter(
-          (todo) => todo.status !== "done"
-        );
-
-        // Save updated todos to localStorage
-        try {
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(persistedTodos));
-          localStorage.setItem(LAST_DATE_KEY, today);
-        } catch (error) {
-          console.error("Error saving after daily reset:", error);
-        }
-
-        return persistedTodos;
-      });
-
-      setCurrentDate(today);
-    }
-  }, []);
-
-  // Load todos from localStorage on mount
-  useEffect(() => {
     try {
-      const savedTodos = localStorage.getItem(STORAGE_KEY);
-      const lastDate = localStorage.getItem(LAST_DATE_KEY);
-      const today = new Date().toDateString();
+      const lastActiveDate = await getUserLastActiveDate(user.uid);
 
-      // Set current date
+      if (lastActiveDate !== today) {
+        console.log("🌅 New day detected! Clearing done items for user...");
+        await handleDailyReset(user.uid);
+      }
+
       setCurrentDate(today);
-
-      if (savedTodos && savedTodos !== "[]") {
-        const parsedTodos = JSON.parse(savedTodos);
-
-        // Check if it's a new day
-        if (lastDate !== today) {
-          // Remove done items, keep todo and inprogress
-          const persistedTodos = parsedTodos.filter(
-            (todo: Todo) => todo.status !== "done"
-          );
-          setTodos(persistedTodos);
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(persistedTodos));
-          localStorage.setItem(LAST_DATE_KEY, today);
-          console.log("🌅 Daily reset completed on page load");
-        } else {
-          setTodos(parsedTodos);
-        }
-      } else {
-        // Create three default todo items on first load
-        const defaultTodos: Todo[] = [
-          {
-            id: Date.now().toString(),
-            text: "",
-            status: "todo",
-          },
-          {
-            id: (Date.now() + 1).toString(),
-            text: "",
-            status: "todo",
-          },
-          {
-            id: (Date.now() + 2).toString(),
-            text: "",
-            status: "todo",
-          },
-        ];
-        setTodos(defaultTodos);
-        setAutoFocusId(defaultTodos[0].id);
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultTodos));
-        localStorage.setItem(LAST_DATE_KEY, today);
-      }
     } catch (error) {
-      console.error("Error loading todos from localStorage:", error);
-      // Fallback to default todos if localStorage fails
-      const defaultTodos: Todo[] = [
-        {
-          id: Date.now().toString(),
-          text: "",
-          status: "todo",
-        },
-      ];
-      setTodos(defaultTodos);
-      setAutoFocusId(defaultTodos[0].id);
-      setCurrentDate(new Date().toDateString());
-    } finally {
-      setIsLoaded(true);
+      console.error("Error during daily reset:", error);
     }
-  }, []);
+  }, [user?.uid]);
 
-  // Save todos to localStorage whenever todos change (but only after initial load)
+  // Load user's todos and setup real-time subscription
   useEffect(() => {
-    if (isLoaded) {
+    if (!user?.uid) return;
+
+    let unsubscribe: (() => void) | undefined;
+
+    const initializeUserData = async () => {
       try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
+        const today = new Date().toDateString();
+        setCurrentDate(today);
+
+        // Check for daily reset first
+        await handleUserDailyReset();
+
+        // Setup real-time subscription to user's todos
+        unsubscribe = subscribeToUserTodos(user.uid, (userTodos) => {
+          if (userTodos.length === 0) {
+            // Create three default todo items for new users
+            const createDefaultTodos = async () => {
+              try {
+                const defaultTodos = [
+                  { text: "", status: "todo" as TodoStatus },
+                  { text: "", status: "todo" as TodoStatus },
+                  { text: "", status: "todo" as TodoStatus },
+                ];
+
+                const todoPromises = defaultTodos.map((todo) =>
+                  firestoreAddTodo(user.uid, todo)
+                );
+
+                const todoIds = await Promise.all(todoPromises);
+                setAutoFocusId(todoIds[0]);
+              } catch (error) {
+                console.error("Error creating default todos:", error);
+              }
+            };
+
+            createDefaultTodos();
+          } else {
+            setTodos(userTodos);
+          }
+
+          setIsLoaded(true);
+        });
       } catch (error) {
-        console.error("Error saving todos to localStorage:", error);
+        console.error("Error initializing user data:", error);
+        setIsLoaded(true);
       }
-    }
-  }, [todos, isLoaded]);
+    };
+
+    initializeUserData();
+
+    // Cleanup subscription on unmount or user change
+    return () => {
+      if (unsubscribe) {
+        unsubscribe();
+      }
+    };
+  }, [user?.uid, handleUserDailyReset]);
 
   // Automatic date checking - runs every minute to detect new day
   useEffect(() => {
     const checkDateChange = () => {
-      handleDailyReset();
+      handleUserDailyReset();
 
       // Also update current date display every minute
       const now = new Date().toDateString();
@@ -212,7 +192,7 @@ export default function Home() {
     const interval = setInterval(checkDateChange, 60000);
 
     return () => clearInterval(interval);
-  }, [handleDailyReset, currentDate]);
+  }, [handleUserDailyReset, currentDate]);
 
   // Clear autoFocusId after it's been used
   useEffect(() => {
@@ -224,32 +204,45 @@ export default function Home() {
     }
   }, [autoFocusId]);
 
-  const addTodo = useCallback(() => {
-    const newTodo: Todo = {
-      id: Date.now().toString(),
-      text: "",
-      status: "todo",
-    };
-    setTodos((prevTodos) => [newTodo, ...prevTodos]); // Add to top instead of bottom
-    setAutoFocusId(newTodo.id);
+  const addTodo = useCallback(async () => {
+    if (!user?.uid) return;
+
+    try {
+      const newTodoId = await firestoreAddTodo(user.uid, {
+        text: "",
+        status: "todo",
+      });
+      setAutoFocusId(newTodoId);
+    } catch (error) {
+      console.error("Error adding todo:", error);
+    }
+  }, [user?.uid]);
+
+  const updateTodoStatus = useCallback(
+    async (id: string, newStatus: TodoStatus) => {
+      try {
+        await firestoreUpdateTodo(id, { status: newStatus });
+      } catch (error) {
+        console.error("Error updating todo status:", error);
+      }
+    },
+    []
+  );
+
+  const updateTodoText = useCallback(async (id: string, newText: string) => {
+    try {
+      await firestoreUpdateTodo(id, { text: newText });
+    } catch (error) {
+      console.error("Error updating todo text:", error);
+    }
   }, []);
 
-  const updateTodoStatus = useCallback((id: string, newStatus: TodoStatus) => {
-    setTodos((prev) =>
-      prev.map((todo) =>
-        todo.id === id ? { ...todo, status: newStatus } : todo
-      )
-    );
-  }, []);
-
-  const updateTodoText = useCallback((id: string, newText: string) => {
-    setTodos((prev) =>
-      prev.map((todo) => (todo.id === id ? { ...todo, text: newText } : todo))
-    );
-  }, []);
-
-  const deleteTodo = useCallback((id: string) => {
-    setTodos((prev) => prev.filter((todo) => todo.id !== id));
+  const deleteTodo = useCallback(async (id: string) => {
+    try {
+      await firestoreDeleteTodo(id);
+    } catch (error) {
+      console.error("Error deleting todo:", error);
+    }
   }, []);
 
   // Keyboard shortcut for new item (⌘ + Enter)
@@ -294,7 +287,7 @@ export default function Home() {
 
       <LoadingScreen isVisible={showLoading} />
       <div className="sf-app min-h-screen bg-bg-default flex flex-col">
-        <TopBar userInitial="B" onAddItem={addTodo} currentDate={currentDate} />
+        <TopBar onAddItem={addTodo} currentDate={currentDate} />
 
         <main className="sf-main-content w-full mx-auto flex-1 p-[0_16px_40px_16px]">
           <div className="sf-todo-list mx-auto w-full max-w-sjofn">
@@ -316,5 +309,13 @@ export default function Home() {
         <Footer />
       </div>
     </>
+  );
+}
+
+export default function Home() {
+  return (
+    <AuthGuard>
+      <HomeContent />
+    </AuthGuard>
   );
 }

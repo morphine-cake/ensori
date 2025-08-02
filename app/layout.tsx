@@ -1,3 +1,4 @@
+import { AuthProvider } from "@/contexts/AuthContext";
 import type { Metadata, Viewport } from "next";
 import { Caveat, DM_Mono, Inter } from "next/font/google";
 import "./globals.css";
@@ -216,7 +217,7 @@ export default function RootLayout({
       <body
         className={`${inter.className} ${dmMono.variable} ${caveat.variable}`}
       >
-        {children}
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );

@@ -1,7 +1,9 @@
 "use client";
 
+import { useAuth } from "@/contexts/AuthContext";
+import { useState } from "react";
+
 interface TopBarProps {
-  userInitial?: string;
   onAddItem?: () => void;
   currentDate?: string;
 }
@@ -66,11 +68,23 @@ const SjofnLogo = () => (
   </svg>
 );
 
-export default function TopBar({
-  userInitial = "B",
-  onAddItem,
-  currentDate,
-}: TopBarProps) {
+export default function TopBar({ onAddItem, currentDate }: TopBarProps) {
+  const { user, logout } = useAuth();
+  const [showDropdown, setShowDropdown] = useState(false);
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      setShowDropdown(false);
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
+  };
+
+  const getUserInitial = () => {
+    if (!user?.email) return "U";
+    return user.email.charAt(0).toUpperCase();
+  };
   // Format date string to "Jun 29" format
   const formatDate = (dateString?: string) => {
     const monthNames = [
@@ -115,7 +129,7 @@ export default function TopBar({
           </div>
         </div>
 
-        {/* Right: Date, divider, and add button */}
+        {/* Right: Date, divider, add button, and user menu */}
         <div className="sf-top-bar-right flex items-center gap-[12px]">
           <span className="sf-date-label font-dm-mono font-medium text-sf-fg-default text-sm mt-1px">
             {formatDate(currentDate)}
@@ -123,6 +137,7 @@ export default function TopBar({
 
           {/* Vertical divider */}
           <div className="sf-divider bg-sf-fg-default w-[1px] h-[16px] opacity-[0.15]"></div>
+
           <button
             className="sf-add-button w-5 h-5 flex items-center justify-center outline-none focus:outline-none active:outline-none transition-colors ease-in-out duration-[168ms]"
             onClick={onAddItem}
@@ -153,6 +168,35 @@ export default function TopBar({
               />
             </svg>
           </button>
+
+          {/* Vertical divider */}
+          <div className="sf-divider bg-sf-fg-default w-[1px] h-[16px] opacity-[0.15]"></div>
+
+          {/* User Avatar and Dropdown */}
+          <div className="relative">
+            <button
+              onClick={() => setShowDropdown(!showDropdown)}
+              className="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-medium hover:bg-blue-700 transition-colors"
+            >
+              {getUserInitial()}
+            </button>
+
+            {showDropdown && (
+              <div className="absolute right-0 top-full mt-2 w-48 bg-bg-default border border-sf-fg-soft rounded-lg shadow-lg z-50">
+                <div className="p-3 border-b border-sf-fg-soft">
+                  <p className="text-sm font-medium text-sf-fg-default truncate">
+                    {user?.email}
+                  </p>
+                </div>
+                <button
+                  onClick={handleLogout}
+                  className="w-full text-left px-3 py-2 text-sm text-sf-fg-default hover:bg-sf-fg-soft hover:bg-opacity-10 transition-colors"
+                >
+                  Sign out
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

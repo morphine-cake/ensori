@@ -162,25 +162,21 @@ export async function handleDailyReset(userId: string): Promise<void> {
   }
 }
 
-// Get user's last active date
+// Get user's last active date (simplified)
 export async function getUserLastActiveDate(
   userId: string
 ): Promise<string | null> {
   try {
-    const todosRef = collection(db, TODOS_COLLECTION);
-    const q = query(
-      todosRef,
-      where("userId", "==", userId),
-      orderBy("updatedAt", "desc")
-    );
+    // Use localStorage for simple date tracking to avoid complex queries
+    const today = new Date().toDateString();
+    const lastDate = localStorage.getItem(`lastActiveDate_${userId}`);
 
-    const querySnapshot = await getDocs(q);
-    if (!querySnapshot.empty) {
-      const latestTodo = querySnapshot.docs[0].data() as FirestoreTodo;
-      return latestTodo.lastActiveDate || null;
+    if (lastDate !== today) {
+      localStorage.setItem(`lastActiveDate_${userId}`, today);
+      return lastDate;
     }
 
-    return null;
+    return today;
   } catch (error) {
     console.error("Error getting user last active date:", error);
     return null;

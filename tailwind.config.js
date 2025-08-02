@@ -14,6 +14,11 @@ module.exports = {
         "sf-fg-default": "var(--fg-default)",
         "sf-fg-soft": "var(--fg-soft)",
         "sf-bg-default": "var(--bg-default)",
+        accent: "var(--accent)",
+        "bg-active": "var(--bg-active)",
+        "nav-border": "var(--nav-border)",
+        "divider-color": "var(--divider-color)",
+        "hero-border-color": "var(--hero-border-color)",
       },
       fontFamily: {
         inter: ["Inter", "sans-serif"],

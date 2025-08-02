@@ -11,6 +11,14 @@
   --fg-default: #191919;
   --fg-soft: #414141;
   --bg-default: #ffffff;
+  --accent: #b12c2f;
+  --bg-active: #F4F4F4;
+  --nav-border: #191919;
+  --hero-gradient-start: rgba(249, 249, 249, 0.00);
+  --hero-gradient-end: #F9F9F9;
+  --divider-color: #E8E8E8;
+  --hero-border-color: #000000;
+  --hero-shadow-color: rgba(0, 0, 0, 0.08);
   --fg-default-rgb: 25, 25, 25;
   --fg-soft-rgb: 65, 65, 65;
   --bg-default-rgb: 255, 255, 255;
@@ -19,11 +27,19 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --fg-default: #FFFFFF;
-    --fg-soft: #D6D6D6;
-    --bg-default: #191919;
+    --fg-soft: #B8B8B8;
+    --bg-default: #0F0F0F;
+    --accent: #FF6B6B;
+    --bg-active: #1F1F1F;
+    --nav-border: #333333;
+    --hero-gradient-start: rgba(31, 31, 31, 0.00);
+    --hero-gradient-end: #1F1F1F;
+    --divider-color: #333333;
+    --hero-border-color: #FFFFFF;
+    --hero-shadow-color: rgba(255, 255, 255, 0.1);
     --fg-default-rgb: 255, 255, 255;
-    --fg-soft-rgb: 214, 214, 214;
-    --bg-default-rgb: 25, 25, 25;
+    --fg-soft-rgb: 184, 184, 184;
+    --bg-default-rgb: 15, 15, 15;
   }
 }
 

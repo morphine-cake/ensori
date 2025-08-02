@@ -1,7 +1,8 @@
 "use client";
 
-import AuthGuard from "@/components/AuthGuard";
 import Footer from "@/components/Footer";
+import LandingPage from "@/components/LandingPage";
+
 import TodoItem, { Todo, TodoStatus } from "@/components/TodoItem";
 import TopBar from "@/components/TopBar";
 import { useAuth } from "@/contexts/AuthContext";
@@ -313,9 +314,34 @@ function HomeContent() {
 }
 
 export default function Home() {
-  return (
-    <AuthGuard>
-      <HomeContent />
-    </AuthGuard>
-  );
+  const { user, loading } = useAuth();
+
+  // Show loading state
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-bg-default flex items-center justify-center">
+        <svg
+          width="27"
+          height="27"
+          viewBox="0 0 54 54"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          className="text-fg-default animate-spin"
+        >
+          <path
+            d="M28.2812 0.00671387C42.5975 0.673119 53.9999 12.4906 54 26.9716C54 41.8805 41.9138 53.9666 27.0049 53.9667C12.0959 53.9667 0.00976562 41.8805 0.00976562 26.9716C0.00986887 12.5116 11.3791 0.70742 25.666 0.00964355C11.9114 0.720031 9.04005 12.519 9.04004 26.9706C9.04004 41.8795 12.096 53.9656 27.0049 53.9657C41.9138 53.9657 43.8477 41.8795 43.8477 26.9706C43.8477 12.4981 42.0255 0.685921 28.2812 0.00671387Z"
+            fill="currentColor"
+          />
+        </svg>
+      </div>
+    );
+  }
+
+  // Show landing page for unauthenticated users
+  if (!user) {
+    return <LandingPage />;
+  }
+
+  // Show todo app for authenticated users
+  return <HomeContent />;
 }

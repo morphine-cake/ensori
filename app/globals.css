@@ -43,6 +43,17 @@
   }
 }
 
+/* Dark mode image filters */
+@media (prefers-color-scheme: dark) {
+  .dark-mode-invert {
+    filter: invert(1) brightness(0.9);
+  }
+  
+  .dark-mode-lighten {
+    filter: brightness(1.5) contrast(0.8);
+  }
+}
+
 @layer base {
   body {
     background-color: var(--bg-default);

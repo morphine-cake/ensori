@@ -1,9 +1,197 @@
 "use client";
 
 import { useAuth } from "@/contexts/AuthContext";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
 
 const LandingPage = () => {
   const { signInWithGoogle } = useAuth();
+
+  // Refs for scroll-triggered animations
+  const featuresRef = useRef(null);
+  const buildRef = useRef(null);
+  const footerRef = useRef(null);
+
+  // Check if sections are in view
+  const featuresInView = useInView(featuresRef, { once: true, margin: "-20%" });
+  const buildInView = useInView(buildRef, { once: true, margin: "-20%" });
+  const footerInView = useInView(footerRef, { once: true, margin: "-20%" });
+
+  // Zen-like animation variants
+  const zenVariants = {
+    // Page entrance
+    pageContainer: {
+      initial: { opacity: 0 },
+      animate: { 
+        opacity: 1,
+        transition: { duration: 1.2, ease: "easeOut" }
+      }
+    },
+
+    // Navigation gentle slide down
+    navigation: {
+      initial: { y: -60, opacity: 0 },
+      animate: { 
+        y: 0, 
+        opacity: 1,
+        transition: { duration: 1, ease: "easeOut", delay: 0.2 }
+      }
+    },
+
+    // Hero content staggered reveal
+    heroContent: {
+      initial: { y: 40, opacity: 0 },
+      animate: { 
+        y: 0, 
+        opacity: 1,
+        transition: { duration: 1.2, ease: "easeOut" }
+      }
+    },
+
+    // Hero title character reveal
+    heroTitle: {
+      initial: { opacity: 0 },
+      animate: { 
+        opacity: 1,
+        transition: { 
+          duration: 0.8,
+          ease: "easeOut",
+          delay: 0.4
+        }
+      }
+    },
+
+    // Staggered text elements
+    staggerText: {
+      initial: { y: 30, opacity: 0 },
+      animate: { 
+        y: 0, 
+        opacity: 1,
+        transition: { duration: 1, ease: "easeOut" }
+      }
+    },
+
+    // CTA button gentle scale
+    ctaButton: {
+      initial: { scale: 0.8, opacity: 0 },
+      animate: { 
+        scale: 1, 
+        opacity: 1,
+        transition: { 
+          duration: 1, 
+          ease: "easeOut", 
+          delay: 1.2
+        }
+      },
+      hover: {
+        scale: 1.02,
+        transition: { duration: 0.3, ease: "easeOut" }
+      }
+    },
+
+    // Hero image floating effect
+    heroImage: {
+      initial: { y: 60, opacity: 0, scale: 0.95 },
+      animate: { 
+        y: 0, 
+        opacity: 1, 
+        scale: 1,
+        transition: { 
+          duration: 1.4, 
+          ease: "easeOut", 
+          delay: 0.8
+        }
+      },
+      float: {
+        y: [-5, 5, -5],
+        transition: {
+          duration: 6,
+          ease: "easeInOut",
+          repeat: Infinity,
+          repeatType: "reverse" as const
+        }
+      }
+    },
+
+    // Feature reveal animations
+    featureContainer: {
+      initial: { opacity: 0 },
+      animate: { 
+        opacity: 1,
+        transition: { 
+          duration: 0.8,
+          staggerChildren: 0.3,
+          delayChildren: 0.2
+        }
+      }
+    },
+
+    featureItem: {
+      initial: { x: -50, opacity: 0 },
+      animate: { 
+        x: 0, 
+        opacity: 1,
+        transition: { duration: 1, ease: "easeOut" }
+      }
+    },
+
+    // Feature icon gentle bounce
+    featureIcon: {
+      initial: { scale: 0, rotate: -10 },
+      animate: { 
+        scale: 1, 
+        rotate: 0,
+        transition: { 
+          duration: 0.8, 
+          ease: "easeOut" 
+        }
+      }
+    },
+
+    // Build section reveal
+    buildSection: {
+      initial: { y: 50, opacity: 0 },
+      animate: { 
+        y: 0, 
+        opacity: 1,
+        transition: { 
+          duration: 1.2, 
+          ease: "easeOut",
+          staggerChildren: 0.2,
+          delayChildren: 0.1
+        }
+      }
+    },
+
+    // Profile breathing effect
+    profileImage: {
+      initial: { scale: 0.8, opacity: 0 },
+      animate: { 
+        scale: 1, 
+        opacity: 1,
+        transition: { duration: 1, ease: "easeOut" }
+      },
+      breathe: {
+        scale: [1, 1.02, 1],
+        transition: {
+          duration: 4,
+          ease: "easeInOut",
+          repeat: Infinity,
+          repeatType: "reverse" as const
+        }
+      }
+    },
+
+    // Footer gentle rise
+    footer: {
+      initial: { y: 30, opacity: 0 },
+      animate: { 
+        y: 0, 
+        opacity: 1,
+        transition: { duration: 1, ease: "easeOut" }
+      }
+    }
+  };
 
   const handleLogin = async () => {
     try {
@@ -14,23 +202,35 @@ const LandingPage = () => {
   };
 
   return (
-    <div
+    <motion.div
       className="landing-page-container min-h-screen bg-bg-default text-fg-default font-dm-mono"
       style={{
         background: `linear-gradient(180deg, rgb(var(--bg-default-rgb)) 71.67%, rgba(var(--bg-default-rgb), 0.00) 100%)`,
         position: "relative",
       }}
+      variants={zenVariants.pageContainer}
+      initial="initial"
+      animate="animate"
     >
       {/* Fixed Navigation */}
-      <nav
+      <motion.nav
         className="landing-nav fixed top-0 left-0 right-0 z-50 px-[24px] md:px-[40px]"
         style={{
           background: `linear-gradient(180deg, rgb(var(--bg-default-rgb)) 71.67%, rgba(var(--bg-default-rgb), 0.00) 100%)`,
         }}
+        variants={zenVariants.navigation}
+        initial="initial"
+        animate="animate"
       >
         <div className="nav-content max-w-[720px] mx-auto py-[16px] flex justify-between items-center">
           {/* Logo */}
-          <div className="nav-logo flex items-center gap-2 select-none">
+          <motion.div 
+            className="nav-logo flex items-center gap-2 select-none"
+            variants={zenVariants.staggerText}
+            initial="initial"
+            animate="animate"
+            transition={{ delay: 0.6 }}
+          >
             <svg
               width="18"
               height="18"
@@ -47,17 +247,23 @@ const LandingPage = () => {
             <span className="logo-text text-fg-default font-medium select-none">
               ensori
             </span>
-          </div>
+          </motion.div>
 
           {/* Login Button */}
-          <button
+          <motion.button
             onClick={handleLogin}
             className="nav-login-btn px-4 py-2 border border-nav-border rounded-full text-fg-default hover:border-accent hover:text-accent active:bg-bg-active transition-all duration-200 text-sm"
+            variants={zenVariants.staggerText}
+            initial="initial"
+            animate="animate"
+            transition={{ delay: 0.7 }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
             login
-          </button>
+          </motion.button>
         </div>
-      </nav>
+      </motion.nav>
 
       {/* Main Content */}
       <main className="landing-main pt-20">
@@ -72,23 +278,50 @@ const LandingPage = () => {
                 backgroundRepeat: "no-repeat, no-repeat",
               }}
             >
-              <div className="hero-content flex max-w-[480px] flex-col items-center">
-                <h1 className="hero-title text-fg-default text-center font-dm-mono text-[42px] font-medium leading-[1.2] mb-[20px]">
+              <motion.div 
+                className="hero-content flex max-w-[480px] flex-col items-center"
+                variants={zenVariants.heroContent}
+                initial="initial"
+                animate="animate"
+              >
+                <motion.h1 
+                  className="hero-title text-fg-default text-center font-dm-mono text-[42px] font-medium leading-[1.2] mb-[20px]"
+                  variants={zenVariants.heroTitle}
+                  initial="initial"
+                  animate="animate"
+                >
                   focus only on today
-                </h1>
-                <p className="hero-description text-fg-default text-center font-dm-mono text-[20px] font-normal leading-[1.4] mb-[16px]">
+                </motion.h1>
+                <motion.p 
+                  className="hero-description text-fg-default text-center font-dm-mono text-[20px] font-normal leading-[1.4] mb-[16px]"
+                  variants={zenVariants.staggerText}
+                  initial="initial"
+                  animate="animate"
+                  transition={{ delay: 0.6 }}
+                >
                   ensori is a minimalist to-do app designed to keep you present.
-                </p>
-                <p className="hero-tagline text-fg-soft text-center font-dm-mono text-[14px] font-normal leading-[1.4] mb-[32px]">
+                </motion.p>
+                <motion.p 
+                  className="hero-tagline text-fg-soft text-center font-dm-mono text-[14px] font-normal leading-[1.4] mb-[32px]"
+                  variants={zenVariants.staggerText}
+                  initial="initial"
+                  animate="animate"
+                  transition={{ delay: 0.8 }}
+                >
                   no backlog . no tomorrow . just today
-                </p>
-                <button
+                </motion.p>
+                <motion.button
                   onClick={handleLogin}
                   className="hero-cta-btn group flex h-[36px] px-[24px] justify-center items-center rounded-[24px] bg-[#b12c2f] hover:bg-[#191919] active:bg-[#191919] transition-all duration-200"
                   style={{
                     boxShadow: "none",
                     transition: "all 0.2s ease, box-shadow 0.2s ease",
                   }}
+                  variants={zenVariants.ctaButton}
+                  initial="initial"
+                  animate="animate"
+                  whileHover="hover"
+                  whileTap={{ scale: 0.95 }}
                   onMouseDown={(e) => {
                     e.currentTarget.style.boxShadow = "0 0 0 2px #b12c2f inset";
                   }}
@@ -102,16 +335,19 @@ const LandingPage = () => {
                   <span className="text-white text-center font-dm-mono text-[14px] font-medium leading-normal">
                     Create your free account
                   </span>
-                </button>
-              </div>
+                </motion.button>
+              </motion.div>
 
               {/* Hero Image */}
-              <div
+              <motion.div
                 className="hero-image-container flex justify-center mt-8 bg-bg-default rounded-t-2xl overflow-hidden"
                 style={{
                   boxShadow:
                     "0 0 0 6px var(--hero-border-color), 0 36px 80px 0 var(--hero-shadow-color), 0 15.04px 33.422px 0 var(--hero-shadow-color), 0 8.041px 17.869px 0 var(--hero-shadow-color), 0 4.508px 10.017px 0 var(--hero-shadow-color), 0 2.394px 5.32px 0 var(--hero-shadow-color), 0 0.996px 2.214px 0 var(--hero-shadow-color)",
                 }}
+                variants={zenVariants.heroImage}
+                initial="initial"
+                animate={["animate", "float"]}
               >
                 <img
                   src="/hero-image-light.png"
@@ -125,21 +361,31 @@ const LandingPage = () => {
                   className="hero-image max-w-full h-auto hidden dark:block"
                   style={{ maxWidth: "600px", width: "100%" }}
                 />
-              </div>
+              </motion.div>
             </div>
           </div>
 
           {/* Features Section */}
-          <div className="features-section w-full flex flex-col items-center py-[60px] px-[40px] sm:py-[120px] gap-[160px] sm:gap-[260px]">
+          <motion.div 
+            ref={featuresRef}
+            className="features-section w-full flex flex-col items-center py-[60px] px-[40px] sm:py-[120px] gap-[160px] sm:gap-[260px]"
+            variants={zenVariants.featureContainer}
+            initial="initial"
+            animate={featuresInView ? "animate" : "initial"}
+          >
             {/* Feature 01 */}
-            <div className="feature-box w-full flex flex-col items-start text-left max-w-[720px]">
-              <div
+            <motion.div 
+              className="feature-box w-full flex flex-col items-start text-left max-w-[720px]"
+              variants={zenVariants.featureItem}
+            >
+              <motion.div
                 className="feature-icon bg-[url('/landingpage-icons/01-icon-today-light.svg')] dark:bg-[url('/landingpage-icons/01-icon-today-dark.svg')] bg-no-repeat bg-contain"
                 style={{ height: "32px", width: "68px" }}
                 role="img"
                 aria-label="Today focus icon"
+                variants={zenVariants.featureIcon}
               />
-              <h2
+              <motion.h2
                 className="feature-title text-fg-default font-dm-mono font-medium"
                 style={{
                   fontSize: "20px",
@@ -147,25 +393,32 @@ const LandingPage = () => {
                   marginTop: "40px",
                   marginBottom: "12px",
                 }}
+                variants={zenVariants.staggerText}
+                transition={{ delay: 0.1 }}
               >
                 no past. no future. just now.
-              </h2>
-              <p
+              </motion.h2>
+              <motion.p
                 className="feature-description text-fg-default font-dm-mono"
                 style={{
                   fontSize: "16px",
                   fontWeight: "300",
                   lineHeight: "160%",
                 }}
+                variants={zenVariants.staggerText}
+                transition={{ delay: 0.2 }}
               >
                 only unfinished tasks carry over to tomorrow. completed items
                 disappear, leaving no digital mess behind.
-              </p>
-            </div>
+              </motion.p>
+            </motion.div>
 
             {/* Feature 02 */}
-            <div className="feature-box w-full flex flex-col items-start text-left max-w-[720px]">
-              <div
+            <motion.div 
+              className="feature-box w-full flex flex-col items-start text-left max-w-[720px]"
+              variants={zenVariants.featureItem}
+            >
+              <motion.div
                 className="feature-icon bg-[url('/landingpage-icons/02-icon-clarity-light.svg')] dark:bg-[url('/landingpage-icons/02-icon-clarity-dark.svg')] bg-no-repeat"
                 style={{
                   height: "46px",
@@ -175,8 +428,9 @@ const LandingPage = () => {
                 }}
                 role="img"
                 aria-label="Clarity icon"
+                variants={zenVariants.featureIcon}
               />
-              <h2
+              <motion.h2
                 className="feature-title text-fg-default font-dm-mono font-medium"
                 style={{
                   fontSize: "20px",
@@ -184,32 +438,40 @@ const LandingPage = () => {
                   marginTop: "40px",
                   marginBottom: "12px",
                 }}
+                variants={zenVariants.staggerText}
+                transition={{ delay: 0.1 }}
               >
                 clarity over complexity
-              </h2>
-              <p
+              </motion.h2>
+              <motion.p
                 className="feature-description text-fg-default font-dm-mono"
                 style={{
                   fontSize: "16px",
                   fontWeight: "300",
                   lineHeight: "160%",
                 }}
+                variants={zenVariants.staggerText}
+                transition={{ delay: 0.2 }}
               >
                 most task apps are filled with boards, tags, priorities, and
                 overdue tasks. ensori removes the clutter, you just write what
                 matters today.
-              </p>
-            </div>
+              </motion.p>
+            </motion.div>
 
             {/* Feature 03 */}
-            <div className="feature-box w-full flex flex-col items-start text-left max-w-[720px]">
-              <div
+            <motion.div 
+              className="feature-box w-full flex flex-col items-start text-left max-w-[720px]"
+              variants={zenVariants.featureItem}
+            >
+              <motion.div
                 className="feature-icon bg-[url('/landingpage-icons/03-icon-status-light.svg')] dark:bg-[url('/landingpage-icons/03-icon-status-dark.svg')] bg-no-repeat bg-contain"
                 style={{ height: "32px", width: "68px" }}
                 role="img"
                 aria-label="Task states icon"
+                variants={zenVariants.featureIcon}
               />
-              <h2
+              <motion.h2
                 className="feature-title text-fg-default font-dm-mono font-medium"
                 style={{
                   fontSize: "20px",
@@ -217,33 +479,41 @@ const LandingPage = () => {
                   marginTop: "40px",
                   marginBottom: "12px",
                 }}
+                variants={zenVariants.staggerText}
+                transition={{ delay: 0.1 }}
               >
                 three simple task states
-              </h2>
-              <p
+              </motion.h2>
+              <motion.p
                 className="feature-description text-fg-default font-dm-mono"
                 style={{
                   fontSize: "16px",
                   fontWeight: "300",
                   lineHeight: "160%",
                 }}
+                variants={zenVariants.staggerText}
+                transition={{ delay: 0.2 }}
               >
                 every task in ensori can be marked as to do, done, or an
                 abstract middle state. that middle state is intentionally
                 flexible. it could mean "in progress," "partially done," or "do
                 it next." you define what it means to you.
-              </p>
-            </div>
+              </motion.p>
+            </motion.div>
 
             {/* Feature 04 */}
-            <div className="feature-box w-full flex flex-col items-start text-left max-w-[720px]">
-              <div
+            <motion.div 
+              className="feature-box w-full flex flex-col items-start text-left max-w-[720px]"
+              variants={zenVariants.featureItem}
+            >
+              <motion.div
                 className="feature-icon bg-[url('/landingpage-icons/04-icon-design-light.svg')] dark:bg-[url('/landingpage-icons/04-icon-design-dark.svg')] bg-no-repeat bg-contain"
                 style={{ height: "32px", width: "68px" }}
                 role="img"
                 aria-label="Design intention icon"
+                variants={zenVariants.featureIcon}
               />
-              <h2
+              <motion.h2
                 className="feature-title text-fg-default font-dm-mono font-medium"
                 style={{
                   fontSize: "20px",
@@ -251,32 +521,40 @@ const LandingPage = () => {
                   marginTop: "40px",
                   marginBottom: "12px",
                 }}
+                variants={zenVariants.staggerText}
+                transition={{ delay: 0.1 }}
               >
                 designed with intention
-              </h2>
-              <p
+              </motion.h2>
+              <motion.p
                 className="feature-description text-fg-default font-dm-mono"
                 style={{
                   fontSize: "16px",
                   fontWeight: "300",
                   lineHeight: "160%",
                 }}
+                variants={zenVariants.staggerText}
+                transition={{ delay: 0.2 }}
               >
                 ensori's visual style is inspired by japanese zen aesthetics,
                 from the enso-like status icon to the clean, handwritten caveat
                 font. it's a to-do app that feels personal and calm.
-              </p>
-            </div>
+              </motion.p>
+            </motion.div>
 
             {/* Feature 05 */}
-            <div className="feature-box w-full flex flex-col items-start text-left max-w-[720px]">
-              <div
+            <motion.div 
+              className="feature-box w-full flex flex-col items-start text-left max-w-[720px]"
+              variants={zenVariants.featureItem}
+            >
+              <motion.div
                 className="feature-icon bg-[url('/landingpage-icons/05-icon-mode-light.svg')] dark:bg-[url('/landingpage-icons/05-icon-mode-dark.svg')] bg-no-repeat bg-contain"
                 style={{ height: "32px", width: "68px" }}
                 role="img"
                 aria-label="Dark mode icon"
+                variants={zenVariants.featureIcon}
               />
-              <h2
+              <motion.h2
                 className="feature-title text-fg-default font-dm-mono font-medium"
                 style={{
                   fontSize: "20px",
@@ -284,35 +562,43 @@ const LandingPage = () => {
                   marginTop: "40px",
                   marginBottom: "12px",
                 }}
+                variants={zenVariants.staggerText}
+                transition={{ delay: 0.1 }}
               >
                 light & dark Mode
-              </h2>
-              <p
+              </motion.h2>
+              <motion.p
                 className="feature-description text-fg-default font-dm-mono"
                 style={{
                   fontSize: "16px",
                   fontWeight: "300",
                   lineHeight: "160%",
                 }}
+                variants={zenVariants.staggerText}
+                transition={{ delay: 0.2 }}
               >
                 Ensori adapts to your flow — whether you're planning in the
                 early morning or organizing your evening. Minimal and beautiful
                 in both light and dark modes.
-              </p>
+              </motion.p>
 
               {/* Mode Images */}
-              <div
+              <motion.div
                 className="mode-images flex w-full max-[548px]:flex-col"
                 style={{
                   gap: "32px",
                   marginTop: "24px",
                 }}
+                variants={zenVariants.staggerText}
+                transition={{ delay: 0.3 }}
               >
-                <div
+                <motion.div
                   className="image-box overflow-hidden rounded-3xl"
                   style={{
                     flex: "1 1 auto",
                   }}
+                  whileHover={{ scale: 1.02 }}
+                  transition={{ duration: 0.3 }}
                 >
                   <img
                     src="/light-mode-1.jpg"
@@ -323,12 +609,14 @@ const LandingPage = () => {
                       height: "auto",
                     }}
                   />
-                </div>
-                <div
+                </motion.div>
+                <motion.div
                   className="image-box overflow-hidden rounded-3xl"
                   style={{
                     flex: "1 1 auto",
                   }}
+                  whileHover={{ scale: 1.02 }}
+                  transition={{ duration: 0.3 }}
                 >
                   <img
                     src="/dark-mode-02.jpg"
@@ -339,17 +627,21 @@ const LandingPage = () => {
                       height: "auto",
                     }}
                   />
-                </div>
-              </div>
-            </div>
-          </div>
+                </motion.div>
+              </motion.div>
+            </motion.div>
+          </motion.div>
 
           {/* Build Section */}
-          <div
+          <motion.div
+            ref={buildRef}
             className="build-section w-full flex justify-center"
             style={{
               padding: "120px 40px",
             }}
+            variants={zenVariants.buildSection}
+            initial="initial"
+            animate={buildInView ? "animate" : "initial"}
           >
             <div
               className="build-container w-full flex flex-col items-start max-w-[720px]"
@@ -358,18 +650,19 @@ const LandingPage = () => {
               }}
             >
               {/* Divider */}
-              <div
+              <motion.div
                 className="divider w-full"
                 style={{
                   height: "1px",
                   backgroundColor: "var(--divider-color)",
                 }}
+                variants={zenVariants.staggerText}
               />
 
               {/* Content Section */}
               <div className="build-content flex flex-col items-start">
                 {/* Cursor Logo */}
-                <img
+                <motion.img
                   src="/Cursor-Logo.svg"
                   alt="Cursor AI Logo"
                   className="cursor-logo dark:invert"
@@ -377,10 +670,11 @@ const LandingPage = () => {
                     width: "62px",
                     height: "62px",
                   }}
+                  variants={zenVariants.featureIcon}
                 />
 
                 {/* Title */}
-                <h2
+                <motion.h2
                   className="build-title text-fg-default font-dm-mono font-medium"
                   style={{
                     fontSize: "20px",
@@ -388,12 +682,13 @@ const LandingPage = () => {
                     marginTop: "32px",
                     marginBottom: "12px",
                   }}
+                  variants={zenVariants.staggerText}
                 >
                   built with cursor ai
-                </h2>
+                </motion.h2>
 
                 {/* Description */}
-                <p
+                <motion.p
                   className="build-description text-fg-default font-dm-mono"
                   style={{
                     fontSize: "16px",
@@ -401,6 +696,7 @@ const LandingPage = () => {
                     lineHeight: "160%",
                     marginBottom: "16px",
                   }}
+                  variants={zenVariants.staggerText}
                 >
                   ensori was designed with care in figma and developed using{" "}
                   <a
@@ -412,30 +708,32 @@ const LandingPage = () => {
                     cursor
                   </a>
                   , an ai-first coding environment.
-                </p>
+                </motion.p>
 
                 {/* Small Description */}
-                <p
+                <motion.p
                   className="build-small-description text-fg-default font-dm-mono"
                   style={{
                     fontSize: "16px",
                     fontWeight: "300",
                     lineHeight: "140%",
                   }}
+                  variants={zenVariants.staggerText}
                 >
                   fast to ship. fun to build.
-                </p>
+                </motion.p>
 
                 {/* Profile Box */}
-                <div
+                <motion.div
                   className="profile-box flex flex-col sm:flex-row items-start sm:items-center"
                   style={{
                     marginTop: "60px",
                     gap: "16px",
                   }}
+                  variants={zenVariants.staggerText}
                 >
                   {/* Profile Image */}
-                  <img
+                  <motion.img
                     src="/Profile-Image.png"
                     alt="Burak Basci Profile"
                     className="profile-image"
@@ -445,6 +743,8 @@ const LandingPage = () => {
                       borderRadius: "40%",
                       objectFit: "cover",
                     }}
+                    variants={zenVariants.profileImage}
+                    animate={["animate", "breathe"]}
                   />
 
                   {/* Profile Content */}
@@ -565,32 +865,37 @@ const LandingPage = () => {
                       </a>
                     </div>
                   </div>
-                </div>
+                </motion.div>
 
                 {/* Second Divider */}
-                <div
+                <motion.div
                   className="divider w-full"
                   style={{
                     height: "1px",
                     backgroundColor: "var(--divider-color)",
                     marginTop: "60px",
                   }}
+                  variants={zenVariants.staggerText}
                 />
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </main>
 
       {/* Footer */}
-      <footer
+      <motion.footer
+        ref={footerRef}
         className="footer-section flex flex-col justify-end items-center"
         style={{
           padding: "120px 40px",
         }}
+        variants={zenVariants.footer}
+        initial="initial"
+        animate={footerInView ? "animate" : "initial"}
       >
         {/* Footer Illustration */}
-        <img
+        <motion.img
           src="/footer-image.svg"
           alt="Footer illustration"
           className="footer-image"
@@ -598,10 +903,13 @@ const LandingPage = () => {
             width: "50px",
             height: "auto",
           }}
+          variants={zenVariants.featureIcon}
+          initial="initial"
+          animate={footerInView ? "animate" : "initial"}
         />
 
         {/* Footer Description */}
-        <p
+        <motion.p
           className="footer-description text-fg-default font-dm-mono text-center"
           style={{
             fontSize: "14px",
@@ -610,13 +918,17 @@ const LandingPage = () => {
             marginTop: "20px",
             margin: "20px 0 0 0",
           }}
+          variants={zenVariants.staggerText}
+          initial="initial"
+          animate={footerInView ? "animate" : "initial"}
+          transition={{ delay: 0.2 }}
         >
           a minimalist task app built to help you stay present
-        </p>
-      </footer>
+        </motion.p>
+      </motion.footer>
 
       {/* Page Image Box */}
-      <div
+      <motion.div
         className="page-image-box"
         style={{
           position: "absolute",
@@ -626,6 +938,9 @@ const LandingPage = () => {
           zIndex: "-1",
           height: "800px",
         }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 2, delay: 1 }}
       >
         {/* Page Image Inner */}
         <div
@@ -639,7 +954,7 @@ const LandingPage = () => {
             overflow: "hidden",
           }}
         >
-          <img
+          <motion.img
             src="/page-bg-light.png"
             alt="Page background"
             className="block dark:hidden"
@@ -652,8 +967,17 @@ const LandingPage = () => {
               height: "auto",
               maxWidth: "1024px",
             }}
+            animate={{ 
+              y: [0, -10, 0],
+            }}
+            transition={{
+              duration: 8,
+              ease: "easeInOut",
+              repeat: Infinity,
+              repeatType: "reverse" as const
+            }}
           />
-          <img
+          <motion.img
             src="/page-bg-dark.png"
             alt="Page background"
             className="hidden dark:block"
@@ -666,10 +990,19 @@ const LandingPage = () => {
               height: "auto",
               maxWidth: "1024px",
             }}
+            animate={{ 
+              y: [0, -10, 0],
+            }}
+            transition={{
+              duration: 8,
+              ease: "easeInOut",
+              repeat: Infinity,
+              repeatType: "reverse" as const
+            }}
           />
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 

@@ -9,13 +9,9 @@ const LandingPage = () => {
 
   // Refs for scroll-triggered animations
   const featuresRef = useRef(null);
-  const buildRef = useRef(null);
-  const footerRef = useRef(null);
 
   // Check if sections are in view
   const featuresInView = useInView(featuresRef, { once: true, margin: "-20%" });
-  const buildInView = useInView(buildRef, { once: true, margin: "-20%" });
-  const footerInView = useInView(footerRef, { once: true, margin: "-20%" });
 
   // Zen-like animation variants
   const zenVariants = {
@@ -657,15 +653,11 @@ const LandingPage = () => {
           </motion.div>
 
           {/* Build Section */}
-          <motion.div
-            ref={buildRef}
+          <div
             className="build-section w-full flex justify-center"
             style={{
               padding: "120px 40px",
             }}
-            variants={zenVariants.buildSection}
-            initial="initial"
-            animate={buildInView ? "animate" : "initial"}
           >
             <div
               className="build-container w-full flex flex-col items-start max-w-[720px]"
@@ -674,19 +666,18 @@ const LandingPage = () => {
               }}
             >
               {/* Divider */}
-              <motion.div
+              <div
                 className="divider w-full"
                 style={{
                   height: "1px",
                   backgroundColor: "var(--divider-color)",
                 }}
-                variants={zenVariants.staggerText}
               />
 
               {/* Content Section */}
               <div className="build-content flex flex-col items-start">
                 {/* Cursor Logo */}
-                <motion.img
+                <img
                   src="/Cursor-Logo.svg"
                   alt="Cursor AI Logo"
                   className="cursor-logo dark:invert"
@@ -694,11 +685,10 @@ const LandingPage = () => {
                     width: "62px",
                     height: "62px",
                   }}
-                  variants={zenVariants.featureIcon}
                 />
 
                 {/* Title */}
-                <motion.h2
+                <h2
                   className="build-title text-fg-default font-dm-mono font-medium"
                   style={{
                     fontSize: "20px",
@@ -706,13 +696,12 @@ const LandingPage = () => {
                     marginTop: "32px",
                     marginBottom: "12px",
                   }}
-                  variants={zenVariants.staggerText}
                 >
                   built with cursor ai
-                </motion.h2>
+                </h2>
 
                 {/* Description */}
-                <motion.p
+                <p
                   className="build-description text-fg-default font-dm-mono"
                   style={{
                     fontSize: "16px",
@@ -720,7 +709,6 @@ const LandingPage = () => {
                     lineHeight: "160%",
                     marginBottom: "16px",
                   }}
-                  variants={zenVariants.staggerText}
                 >
                   ensori was designed with care in figma and developed using{" "}
                   <a
@@ -732,32 +720,30 @@ const LandingPage = () => {
                     cursor
                   </a>
                   , an ai-first coding environment.
-                </motion.p>
+                </p>
 
                 {/* Small Description */}
-                <motion.p
+                <p
                   className="build-small-description text-fg-default font-dm-mono"
                   style={{
                     fontSize: "16px",
                     fontWeight: "300",
                     lineHeight: "140%",
                   }}
-                  variants={zenVariants.staggerText}
                 >
                   fast to ship. fun to build.
-                </motion.p>
+                </p>
 
                 {/* Profile Box */}
-                <motion.div
+                <div
                   className="profile-box flex flex-col sm:flex-row items-start sm:items-center"
                   style={{
                     marginTop: "60px",
                     gap: "16px",
                   }}
-                  variants={zenVariants.staggerText}
                 >
                   {/* Profile Image */}
-                  <motion.img
+                  <img
                     src="/Profile-Image.png"
                     alt="Burak Basci Profile"
                     className="profile-image"
@@ -767,8 +753,6 @@ const LandingPage = () => {
                       borderRadius: "40%",
                       objectFit: "cover",
                     }}
-                    variants={zenVariants.profileImage}
-                    animate={["animate", "breathe"]}
                   />
 
                   {/* Profile Content */}
@@ -892,34 +876,29 @@ const LandingPage = () => {
                 </motion.div>
 
                 {/* Second Divider */}
-                <motion.div
+                <div
                   className="divider w-full"
                   style={{
                     height: "1px",
                     backgroundColor: "var(--divider-color)",
                     marginTop: "60px",
                   }}
-                  variants={zenVariants.staggerText}
                 />
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </main>
 
       {/* Footer */}
-      <motion.footer
-        ref={footerRef}
+      <footer
         className="footer-section flex flex-col justify-end items-center"
         style={{
           padding: "120px 40px",
         }}
-        variants={zenVariants.footer}
-        initial="initial"
-        animate={footerInView ? "animate" : "initial"}
       >
         {/* Footer Illustration */}
-        <motion.img
+        <img
           src="/footer-image.svg"
           alt="Footer illustration"
           className="footer-image"
@@ -927,13 +906,10 @@ const LandingPage = () => {
             width: "50px",
             height: "auto",
           }}
-          variants={zenVariants.featureIcon}
-          initial="initial"
-          animate={footerInView ? "animate" : "initial"}
         />
 
         {/* Footer Description */}
-        <motion.p
+        <p
           className="footer-description text-fg-default font-dm-mono text-center"
           style={{
             fontSize: "14px",
@@ -942,14 +918,10 @@ const LandingPage = () => {
             marginTop: "20px",
             margin: "20px 0 0 0",
           }}
-          variants={zenVariants.staggerText}
-          initial="initial"
-          animate={footerInView ? "animate" : "initial"}
-          transition={{ delay: 0.2 }}
         >
           a minimalist task app built to help you stay present
-        </motion.p>
-      </motion.footer>
+        </p>
+      </footer>
 
       {/* Page Image Box */}
       <motion.div

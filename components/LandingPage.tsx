@@ -104,6 +104,20 @@ const LandingPage = () => {
       }
     },
 
+    // Hero background entrance (comes last)
+    heroBackground: {
+      initial: { opacity: 0, scale: 1.05 },
+      animate: { 
+        opacity: 1, 
+        scale: 1,
+        transition: { 
+          duration: 1.5, 
+          ease: "easeOut", 
+          delay: 1.6
+        }
+      }
+    },
+
     // Feature reveal animations
     featureContainer: {
       initial: { opacity: 0 },
@@ -268,7 +282,7 @@ const LandingPage = () => {
               }}
             >
               {/* Hero Background */}
-              <div
+              <motion.div
                 className="hero-background bg-[url('/hero-bg-image-light.png'),linear-gradient(180deg,var(--hero-gradient-start)_0%,var(--hero-gradient-end)_100%)] dark:bg-[url('/hero-bg-image-dark.png'),linear-gradient(180deg,var(--hero-gradient-start)_0%,var(--hero-gradient-end)_100%)]"
                 style={{
                   position: "absolute",
@@ -281,6 +295,9 @@ const LandingPage = () => {
                   backgroundPosition: "center bottom, center",
                   backgroundRepeat: "no-repeat, no-repeat",
                 }}
+                variants={zenVariants.heroBackground}
+                initial="initial"
+                animate="animate"
               />
               <motion.div 
                 className="hero-content flex max-w-[480px] flex-col items-center"

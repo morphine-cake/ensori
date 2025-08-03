@@ -139,7 +139,7 @@ const LandingPage = () => {
               <img
                 src="/landingpage-icons/01-icon-today.svg"
                 alt="Today focus icon"
-                className="feature-icon dark-mode-invert"
+                className="feature-icon"
                 style={{ height: "32px", width: "auto" }}
               />
               <h3
@@ -171,7 +171,7 @@ const LandingPage = () => {
               <img
                 src="/landingpage-icons/02-icon-clarity.svg"
                 alt="Clarity icon"
-                className="feature-icon dark-mode-invert"
+                className="feature-icon"
                 style={{ height: "32px", width: "auto" }}
               />
               <h3
@@ -204,7 +204,7 @@ const LandingPage = () => {
               <img
                 src="/landingpage-icons/03-icon-status.svg"
                 alt="Task states icon"
-                className="feature-icon dark-mode-invert"
+                className="feature-icon"
                 style={{ height: "32px", width: "auto" }}
               />
               <h3
@@ -238,7 +238,7 @@ const LandingPage = () => {
               <img
                 src="/landingpage-icons/04-icon-design.svg"
                 alt="Design intention icon"
-                className="feature-icon dark-mode-invert"
+                className="feature-icon"
                 style={{ height: "32px", width: "auto" }}
               />
               <h3
@@ -271,7 +271,7 @@ const LandingPage = () => {
               <img
                 src="/landingpage-icons/05-icon-dark_mode.svg"
                 alt="Dark mode icon"
-                className="feature-icon dark-mode-invert"
+                className="feature-icon"
                 style={{ height: "32px", width: "auto" }}
               />
               <h3
@@ -370,7 +370,7 @@ const LandingPage = () => {
                 <img
                   src="/Cursor-Logo.svg"
                   alt="Cursor AI Logo"
-                  className="cursor-logo dark-mode-invert"
+                  className="cursor-logo"
                   style={{
                     width: "62px",
                     height: "62px",
@@ -496,7 +496,6 @@ const LandingPage = () => {
                         <img
                           src="/Twitter Icon.svg"
                           alt="Twitter"
-                          className="dark-mode-invert"
                           style={{ width: "20px", height: "20px" }}
                         />
                       </a>
@@ -518,7 +517,6 @@ const LandingPage = () => {
                         <img
                           src="/Instagram Icon.svg"
                           alt="Instagram"
-                          className="dark-mode-invert"
                           style={{ width: "20px", height: "20px" }}
                         />
                       </a>
@@ -540,7 +538,6 @@ const LandingPage = () => {
                         <img
                           src="/Linkedin Icon.svg"
                           alt="LinkedIn"
-                          className="dark-mode-invert"
                           style={{ width: "20px", height: "20px" }}
                         />
                       </a>
@@ -574,7 +571,7 @@ const LandingPage = () => {
         <img
           src="/footer-image.svg"
           alt="Footer illustration"
-          className="footer-image dark-mode-invert"
+          className="footer-image"
           style={{
             width: "50px",
             height: "auto",

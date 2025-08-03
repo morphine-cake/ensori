@@ -276,7 +276,7 @@ const LandingPage = () => {
                   right: "0",
                   top: "0",
                   bottom: "0",
-                  zIndex: "-1",
+                  zIndex: "1",
                   backgroundSize: "cover, cover",
                   backgroundPosition: "center bottom, center",
                   backgroundRepeat: "no-repeat, no-repeat",
@@ -287,6 +287,7 @@ const LandingPage = () => {
                 variants={zenVariants.heroContent}
                 initial="initial"
                 animate="animate"
+                style={{ zIndex: "2", position: "relative" }}
               >
                 <motion.h1 
                   className="hero-title text-fg-default text-center font-dm-mono text-[42px] font-medium leading-[1.2] mb-[20px]"
@@ -348,6 +349,8 @@ const LandingPage = () => {
                 style={{
                   boxShadow:
                     "0 0 0 6px var(--hero-border-color), 0 36px 80px 0 var(--hero-shadow-color), 0 15.04px 33.422px 0 var(--hero-shadow-color), 0 8.041px 17.869px 0 var(--hero-shadow-color), 0 4.508px 10.017px 0 var(--hero-shadow-color), 0 2.394px 5.32px 0 var(--hero-shadow-color), 0 0.996px 2.214px 0 var(--hero-shadow-color)",
+                  zIndex: "2",
+                  position: "relative",
                 }}
                 variants={zenVariants.heroImage}
                 initial="initial"

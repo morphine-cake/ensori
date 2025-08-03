@@ -89,7 +89,7 @@ const LandingPage = () => {
       }
     },
 
-    // Hero image floating effect
+    // Hero image entrance effect
     heroImage: {
       initial: { y: 60, opacity: 0, scale: 0.95 },
       animate: { 
@@ -100,15 +100,6 @@ const LandingPage = () => {
           duration: 1.4, 
           ease: "easeOut", 
           delay: 0.8
-        }
-      },
-      float: {
-        y: [-5, 5, -5],
-        transition: {
-          duration: 6,
-          ease: "easeInOut",
-          repeat: Infinity,
-          repeatType: "reverse" as const
         }
       }
     },
@@ -347,7 +338,7 @@ const LandingPage = () => {
                 }}
                 variants={zenVariants.heroImage}
                 initial="initial"
-                animate={["animate", "float"]}
+                animate="animate"
               >
                 <img
                   src="/hero-image-light.png"

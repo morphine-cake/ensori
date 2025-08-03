@@ -262,13 +262,26 @@ const LandingPage = () => {
           <div className="hero-section flex pb-[60px] sm:pt-[60px] sm:px-[40px] sm:pb-[120px] flex-col items-center justify-center self-stretch mx-auto rounded-3xl">
             {/* Hero Wrapper with Gradient */}
             <div
-              className="hero-wrapper flex flex-col items-center justify-between max-w-[1024px] w-full pt-20 px-10 pb-0 rounded-3xl overflow-hidden bg-[url('/hero-bg-image-light.png'),linear-gradient(180deg,var(--hero-gradient-start)_0%,var(--hero-gradient-end)_100%)] dark:bg-[url('/hero-bg-image-dark.png'),linear-gradient(180deg,var(--hero-gradient-start)_0%,var(--hero-gradient-end)_100%)] h-auto sm:h-[715px]"
+              className="hero-wrapper flex flex-col items-center justify-between max-w-[1024px] w-full pt-20 px-10 pb-0 rounded-3xl overflow-hidden h-auto sm:h-[715px]"
               style={{
-                backgroundSize: "cover, cover",
-                backgroundPosition: "center bottom, center",
-                backgroundRepeat: "no-repeat, no-repeat",
+                position: "relative",
               }}
             >
+              {/* Hero Background */}
+              <div
+                className="hero-background bg-[url('/hero-bg-image-light.png'),linear-gradient(180deg,var(--hero-gradient-start)_0%,var(--hero-gradient-end)_100%)] dark:bg-[url('/hero-bg-image-dark.png'),linear-gradient(180deg,var(--hero-gradient-start)_0%,var(--hero-gradient-end)_100%)]"
+                style={{
+                  position: "absolute",
+                  left: "0",
+                  right: "0",
+                  top: "0",
+                  bottom: "0",
+                  zIndex: "-1",
+                  backgroundSize: "cover, cover",
+                  backgroundPosition: "center bottom, center",
+                  backgroundRepeat: "no-repeat, no-repeat",
+                }}
+              />
               <motion.div 
                 className="hero-content flex max-w-[480px] flex-col items-center"
                 variants={zenVariants.heroContent}

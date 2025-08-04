@@ -1,7 +1,7 @@
 "use client";
 
 import { useAuth } from "@/contexts/AuthContext";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, Variants } from "framer-motion";
 import { useRef } from "react";
 
 const LandingPage = () => {
@@ -14,13 +14,13 @@ const LandingPage = () => {
   const featuresInView = useInView(featuresRef, { once: true, margin: "-20%" });
 
   // Zen-like animation variants
-  const zenVariants = {
+  const zenVariants: Variants = {
     // Page entrance
     pageContainer: {
       initial: { opacity: 0 },
       animate: {
         opacity: 1,
-        transition: { duration: 1.2, ease: "easeOut" },
+        transition: { duration: 1.2 },
       },
     },
 
@@ -30,7 +30,7 @@ const LandingPage = () => {
       animate: {
         y: 0,
         opacity: 1,
-        transition: { duration: 1, ease: "easeOut", delay: 0.2 },
+        transition: { duration: 1, delay: 0.2 },
       },
     },
 
@@ -51,7 +51,7 @@ const LandingPage = () => {
         opacity: 1,
         transition: {
           duration: 0.8,
-          ease: "easeOut",
+          
           delay: 0.4,
         },
       },
@@ -75,7 +75,7 @@ const LandingPage = () => {
         opacity: 1,
         transition: {
           duration: 1,
-          ease: "easeOut",
+          
           delay: 1.2,
         },
       },
@@ -94,7 +94,7 @@ const LandingPage = () => {
         scale: 1,
         transition: {
           duration: 1.4,
-          ease: "easeOut",
+          
           delay: 0.8,
         },
       },
@@ -108,7 +108,7 @@ const LandingPage = () => {
         scale: 1,
         transition: {
           duration: 1.5,
-          ease: "easeOut",
+          
           delay: 1.6,
         },
       },
@@ -144,7 +144,7 @@ const LandingPage = () => {
         rotate: 0,
         transition: {
           duration: 0.8,
-          ease: "easeOut",
+          
         },
       },
     },
@@ -157,7 +157,7 @@ const LandingPage = () => {
         opacity: 1,
         transition: {
           duration: 1.2,
-          ease: "easeOut",
+          
           staggerChildren: 0.2,
           delayChildren: 0.1,
         },

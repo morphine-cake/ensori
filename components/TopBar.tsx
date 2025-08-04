@@ -1,7 +1,8 @@
 "use client";
 
 import { useAuth } from "@/contexts/AuthContext";
-import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 
 interface TopBarProps {
   onAddItem?: () => void;
@@ -71,6 +72,7 @@ const SjofnLogo = () => (
 export default function TopBar({ onAddItem, currentDate }: TopBarProps) {
   const { user, logout } = useAuth();
   const [showDropdown, setShowDropdown] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const handleLogout = async () => {
     try {
@@ -81,10 +83,26 @@ export default function TopBar({ onAddItem, currentDate }: TopBarProps) {
     }
   };
 
-  const getUserInitial = () => {
-    if (!user?.email) return "U";
-    return user.email.charAt(0).toUpperCase();
-  };
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setShowDropdown(false);
+      }
+    };
+
+    if (showDropdown) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showDropdown]);
+
   // Format date string to "Jun 29" format
   const formatDate = (dateString?: string) => {
     const monthNames = [
@@ -138,64 +156,187 @@ export default function TopBar({ onAddItem, currentDate }: TopBarProps) {
           {/* Vertical divider */}
           <div className="sf-divider bg-sf-fg-default w-[1px] h-[16px] opacity-[0.15]"></div>
 
-          <button
-            className="sf-add-button w-5 h-5 flex items-center justify-center outline-none focus:outline-none active:outline-none transition-colors ease-in-out duration-[168ms]"
-            onClick={onAddItem}
-            style={{
-              backgroundColor: "#B12C2F",
-              borderRadius: "6px",
-              border: "none",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = "#8A1F25";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = "#B12C2F";
-            }}
-          >
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 16 16"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M8 3V13M13 8H3"
-                stroke="white"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
-
-          {/* Vertical divider */}
-          <div className="sf-divider bg-sf-fg-default w-[1px] h-[16px] opacity-[0.15]"></div>
-
-          {/* User Avatar and Dropdown */}
-          <div className="relative">
+          {/* Button group with 8px spacing */}
+          <div className="flex items-center gap-2">
             <button
-              onClick={() => setShowDropdown(!showDropdown)}
-              className="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-medium hover:bg-blue-700 transition-colors"
+              className="sf-add-button w-5 h-5 flex items-center justify-center outline-none focus:outline-none active:outline-none transition-colors ease-in-out duration-[168ms]"
+              onClick={onAddItem}
+              style={{
+                backgroundColor: "#B12C2F",
+                borderRadius: "6px",
+                border: "none",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = "#8A1F25";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = "#B12C2F";
+              }}
             >
-              {getUserInitial()}
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M8 3V13M13 8H3"
+                  stroke="white"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
             </button>
 
-            {showDropdown && (
-              <div className="absolute right-0 top-full mt-2 w-48 bg-bg-default border border-sf-fg-soft rounded-lg shadow-lg z-50">
-                <div className="p-3 border-b border-sf-fg-soft">
-                  <p className="text-sm font-medium text-sf-fg-default truncate">
-                    {user?.email}
-                  </p>
-                </div>
-                <button
-                  onClick={handleLogout}
-                  className="w-full text-left px-3 py-2 text-sm text-sf-fg-default hover:bg-sf-fg-soft hover:bg-opacity-10 transition-colors"
+            {/* Hamburger Menu and Dropdown */}
+            <div className="relative" ref={dropdownRef}>
+              <motion.button
+                onClick={() => setShowDropdown(!showDropdown)}
+                className="w-5 h-5 flex items-center justify-center"
+                style={{
+                  borderRadius: "6px",
+                }}
+                animate={{
+                  backgroundColor: showDropdown
+                    ? "var(--fg-default)"
+                    : "transparent",
+                }}
+                whileHover={
+                  !showDropdown ? { backgroundColor: "var(--bg-active)" } : {}
+                }
+                transition={{
+                  type: "spring",
+                  stiffness: 260,
+                  damping: 20,
+                }}
+              >
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  Sign out
-                </button>
-              </div>
-            )}
+                  <motion.path
+                    d="M13 4H3"
+                    stroke={
+                      showDropdown ? "var(--bg-default)" : "var(--fg-default)"
+                    }
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    animate={{
+                      d: showDropdown ? "M12 4L4 12" : "M13 4H3",
+                    }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 260,
+                      damping: 20,
+                    }}
+                  />
+                  <motion.path
+                    d="M13 8L3 8"
+                    stroke={
+                      showDropdown ? "var(--bg-default)" : "var(--fg-default)"
+                    }
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    animate={{
+                      opacity: showDropdown ? 0 : 1,
+                    }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 260,
+                      damping: 20,
+                    }}
+                  />
+                  <motion.path
+                    d="M13 12L3 12"
+                    stroke={
+                      showDropdown ? "var(--bg-default)" : "var(--fg-default)"
+                    }
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    animate={{
+                      d: showDropdown ? "M4 4L12 12" : "M13 12L3 12",
+                    }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 260,
+                      damping: 20,
+                    }}
+                  />
+                </svg>
+              </motion.button>
+
+              <AnimatePresence>
+                {showDropdown && (
+                  <motion.div
+                    className="absolute right-0 top-full mt-2 bg-bg-default shadow-lg z-50"
+                    style={{
+                      border: "1px solid var(--divider-color)",
+                      borderRadius: "14px",
+                      width: "260px",
+                    }}
+                    initial={{ opacity: 0, scale: 0.95, y: -10 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.95, y: -10 }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 300,
+                      damping: 30,
+                      duration: 0.2,
+                    }}
+                  >
+                    <div
+                      className="p-5 border-b"
+                      style={{
+                        borderBottomColor: "var(--divider-color)",
+                      }}
+                    >
+                      <p className="text-sm font-dm-mono font-medium text-sf-fg-default truncate">
+                        {user?.displayName}
+                      </p>
+                      <p className="text-xs font-dm-mono text-sf-fg-soft truncate mt-1">
+                        {user?.email}
+                      </p>
+                    </div>
+                    <div className="p-2">
+                      <button
+                        onClick={handleLogout}
+                        className="w-full text-left px-3 py-2 text-sm font-dm-mono text-sf-fg-default transition-colors"
+                        style={{
+                          borderRadius: "6px",
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.backgroundColor =
+                            "var(--divider-color)";
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.backgroundColor = "transparent";
+                        }}
+                      >
+                        <div className="flex items-center justify-between w-full">
+                          <span>Sign out</span>
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 16 16"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M12.1465 5.64648C12.3173 5.47562 12.5813 5.45387 12.7754 5.58203L12.8535 5.64648L14.8535 7.64648C15.0488 7.84175 15.0488 8.15825 14.8535 8.35352L12.8535 10.3535C12.6583 10.5488 12.3417 10.5488 12.1465 10.3535C11.9512 10.1583 11.9512 9.84175 12.1465 9.64648L13.293 8.5H6C5.72386 8.5 5.5 8.27614 5.5 8C5.5 7.72386 5.72386 7.5 6 7.5H13.293L12.1465 6.35352L12.082 6.27539C11.9539 6.08131 11.9756 5.81735 12.1465 5.64648ZM10 6V3.5C10 3.23478 9.89457 2.98051 9.70703 2.79297C9.51949 2.60543 9.26522 2.5 9 2.5H5C4.73478 2.5 4.48051 2.60543 4.29297 2.79297C4.10543 2.98051 4 3.23478 4 3.5V12.5C4 12.7652 4.10543 13.0195 4.29297 13.207C4.48051 13.3946 4.73478 13.5 5 13.5H9C9.26522 13.5 9.51949 13.3946 9.70703 13.207C9.89457 13.0195 10 12.7652 10 12.5V10C10 9.72386 10.2239 9.5 10.5 9.5C10.7761 9.5 11 9.72386 11 10V12.5C11 13.0304 10.7891 13.539 10.4141 13.9141C10.039 14.2891 9.53043 14.5 9 14.5H5C4.46957 14.5 3.96101 14.2891 3.58594 13.9141C3.21086 13.539 3 13.0304 3 12.5V3.5C3 2.96957 3.21086 2.46101 3.58594 2.08594C3.96101 1.71086 4.46957 1.5 5 1.5H9C9.53043 1.5 10.039 1.71086 10.4141 2.08594C10.7891 2.46101 11 2.96957 11 3.5V6C11 6.27614 10.7761 6.5 10.5 6.5C10.2239 6.5 10 6.27614 10 6Z"
+                              fill="currentColor"
+                            />
+                          </svg>
+                        </div>
+                      </button>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
         </div>
       </div>

@@ -2,6 +2,7 @@
 
 import Footer from "@/components/Footer";
 import LandingPage from "@/components/LandingPage";
+import LoadingScreen from "@/components/LoadingScreen";
 
 import TodoItem, { Todo, TodoStatus } from "@/components/TodoItem";
 import TopBar from "@/components/TopBar";
@@ -14,49 +15,8 @@ import {
   handleDailyReset,
   subscribeToUserTodos,
 } from "@/lib/firestore";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import { useCallback, useEffect, useState } from "react";
-
-// Loading Screen Component
-const LoadingScreen = ({ isVisible }: { isVisible: boolean }) => {
-  return (
-    <AnimatePresence>
-      {isVisible && (
-        <motion.div
-          initial={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="fixed inset-0 z-[9999] flex items-center justify-center bg-bg-default backdrop-blur-sm w-screen h-screen"
-        >
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.9 }}
-            transition={{
-              duration: 0.6,
-              ease: "easeOut",
-            }}
-            className="flex items-center justify-center"
-          >
-            <svg
-              width="27"
-              height="27"
-              viewBox="0 0 54 54"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              className="text-sf-fg-default drop-shadow-sm"
-            >
-              <path
-                d="M28.2812 0.00671387C42.5975 0.673119 53.9999 12.4906 54 26.9716C54 41.8805 41.9138 53.9666 27.0049 53.9667C12.0959 53.9667 0.00976562 41.8805 0.00976562 26.9716C0.00986887 12.5116 11.3791 0.70742 25.666 0.00964355C11.9114 0.720031 9.04005 12.519 9.04004 26.9706C9.04004 41.8795 12.096 53.9656 27.0049 53.9657C41.9138 53.9657 43.8477 41.8795 43.8477 26.9706C43.8477 12.4981 42.0255 0.685921 28.2812 0.00671387Z"
-                fill="currentColor"
-              />
-            </svg>
-          </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>
-  );
-};
 
 // Structured Data for SEO
 const structuredData = {
@@ -94,19 +54,19 @@ function HomeContent() {
   const [currentDate, setCurrentDate] = useState<string>("");
   const [showLoading, setShowLoading] = useState(true);
 
-  // Function to handle daily reset - remove done items for current user
+  // Function to handle daily reset - remove done items that were completed before today
   const handleUserDailyReset = useCallback(async () => {
     if (!user?.uid) return;
 
     const today = new Date().toDateString();
 
     try {
-      const lastActiveDate = await getUserLastActiveDate(user.uid);
+      // Always run the reset check to remove old completed todos
+      // This will only remove todos completed before today (not same day)
+      await handleDailyReset(user.uid);
 
-      if (lastActiveDate !== today) {
-        console.log("🌅 New day detected! Clearing done items for user...");
-        await handleDailyReset(user.uid);
-      }
+      // Update the user's last active date
+      await getUserLastActiveDate(user.uid);
 
       setCurrentDate(today);
     } catch (error) {
@@ -321,6 +281,6 @@ export default function Home() {
     return <HomeContent />;
   }
 
-  // Show landing page immediately for unauthenticated users (no loading screen)
+  // Show landing page for unauthenticated users
   return <LandingPage />;
 }

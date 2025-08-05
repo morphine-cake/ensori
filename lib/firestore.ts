@@ -21,6 +21,7 @@ export interface FirestoreTodo extends Omit<Todo, "id"> {
   createdAt: Timestamp;
   updatedAt: Timestamp;
   lastActiveDate?: string; // For daily reset tracking
+  completedAt?: Timestamp; // Track when todo was marked as done
 }
 
 const TODOS_COLLECTION = "todos";
@@ -83,11 +84,18 @@ export async function updateTodo(
 ): Promise<void> {
   try {
     const todoRef = doc(db, TODOS_COLLECTION, todoId);
-    await updateDoc(todoRef, {
+    const updateData: any = {
       ...updates,
       updatedAt: serverTimestamp(),
       lastActiveDate: new Date().toDateString(),
-    });
+    };
+
+    // Track when todo is marked as done
+    if (updates.status === "done") {
+      updateData.completedAt = serverTimestamp();
+    }
+
+    await updateDoc(todoRef, updateData);
   } catch (error) {
     console.error("Error updating todo:", error);
     throw error;
@@ -137,7 +145,7 @@ export function subscribeToUserTodos(
   );
 }
 
-// Handle daily reset - remove done todos for user
+// Handle daily reset - remove done todos that were completed before today
 export async function handleDailyReset(userId: string): Promise<void> {
   try {
     const todosRef = collection(db, TODOS_COLLECTION);
@@ -150,12 +158,25 @@ export async function handleDailyReset(userId: string): Promise<void> {
     const querySnapshot = await getDocs(q);
     const deletePromises: Promise<void>[] = [];
 
+    // Get start of today (midnight)
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const todayTimestamp = Timestamp.fromDate(today);
+
     querySnapshot.forEach((doc) => {
-      deletePromises.push(deleteDoc(doc.ref));
+      const data = doc.data() as FirestoreTodo;
+      // Only delete todos that were completed before today
+      if (data.completedAt && data.completedAt.toDate() < today) {
+        deletePromises.push(deleteDoc(doc.ref));
+      }
     });
 
-    await Promise.all(deletePromises);
-    console.log("🌅 Daily reset completed - removed done todos");
+    if (deletePromises.length > 0) {
+      await Promise.all(deletePromises);
+      console.log(
+        `🌅 Daily reset completed - removed ${deletePromises.length} done todos from previous days`
+      );
+    }
   } catch (error) {
     console.error("Error during daily reset:", error);
     throw error;

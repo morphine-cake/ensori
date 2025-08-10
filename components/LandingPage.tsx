@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { motion, useInView } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
@@ -1038,7 +1039,7 @@ const LandingPage = () => {
         </footer>
 
         {/* Page Image Box */}
-        <motion.div
+        <div
           className="page-image-box"
           style={{
             position: "absolute",
@@ -1048,9 +1049,6 @@ const LandingPage = () => {
             zIndex: "-1",
             height: "800px",
           }}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 2, delay: 1 }}
         >
           {/* Page Image Inner */}
           <div
@@ -1064,7 +1062,7 @@ const LandingPage = () => {
               overflow: "hidden",
             }}
           >
-            <motion.img
+            <img
               src="/page-bg-light.png"
               alt="Page background"
               className="block dark:hidden"
@@ -1077,17 +1075,8 @@ const LandingPage = () => {
                 height: "auto",
                 maxWidth: "1024px",
               }}
-              animate={{
-                y: [0, -10, 0],
-              }}
-              transition={{
-                duration: 8,
-                ease: "easeInOut",
-                repeat: Infinity,
-                repeatType: "reverse" as const,
-              }}
             />
-            <motion.img
+            <img
               src="/page-bg-dark.png"
               alt="Page background"
               className="hidden dark:block"
@@ -1100,18 +1089,9 @@ const LandingPage = () => {
                 height: "auto",
                 maxWidth: "1024px",
               }}
-              animate={{
-                y: [0, -10, 0],
-              }}
-              transition={{
-                duration: 8,
-                ease: "easeInOut",
-                repeat: Infinity,
-                repeatType: "reverse" as const,
-              }}
             />
           </div>
-        </motion.div>
+        </div>
       </motion.div>
     </>
   );

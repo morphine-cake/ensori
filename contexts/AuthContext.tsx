@@ -6,6 +6,8 @@ import {
   User,
   onAuthStateChanged,
   signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
   signOut,
 } from "firebase/auth";
 import React, { createContext, useContext, useEffect, useState } from "react";
@@ -41,14 +43,40 @@ export function AuthProvider({ children }: AuthProviderProps) {
       setLoading(false);
     });
 
+    // Check for redirect result on app load
+    getRedirectResult(auth).catch((error) => {
+      console.error("Redirect auth error:", error);
+    });
+
     return unsubscribe;
   }, []);
 
   const signInWithGoogle = async () => {
     try {
       const provider = new GoogleAuthProvider();
-      await signInWithPopup(auth, provider);
+      
+      // Add additional scopes if needed
+      provider.addScope('email');
+      provider.addScope('profile');
+      
+      // Try popup first, fallback to redirect if it fails
+      try {
+        await signInWithPopup(auth, provider);
+      } catch (popupError: any) {
+        // If popup is blocked or fails with user agent error, use redirect
+        if (
+          popupError.code === 'auth/popup-blocked' ||
+          popupError.code === 'auth/popup-closed-by-user' ||
+          popupError.message?.includes('disallowed_useragent')
+        ) {
+          console.log('Popup blocked, using redirect method');
+          await signInWithRedirect(auth, provider);
+        } else {
+          throw popupError;
+        }
+      }
     } catch (error) {
+      console.error('Auth error:', error);
       throw error;
     }
   };
